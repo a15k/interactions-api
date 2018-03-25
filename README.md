@@ -22,3 +22,16 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+# TODOs
+
+1. Allow CORS for whitelisted origins (based on app users)
+2. Rest of Flags controller
+2. Presentations controller
+3. Ratings controller
+4. Getting accept header to display in swagger-ui
+5. Set known apps and settings from metrics-site via an API
+
+# Notes
+
+* `swagger-codegen generate -i http://localhost:3000/api/docs/v1 -l ruby -Dmodels -o /tmp/codegen` to generate models
