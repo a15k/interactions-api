@@ -1,0 +1,22 @@
+{
+  "type": "record",
+  "name": "flagged_content",
+  "doc": "Describes how users flag content",
+  "namespace": "org.a15k",
+  "fields": [
+    {
+      "name": "newone",
+      "type": "string",
+      "default": "something"
+    },
+    {
+      "name": "explanation",
+      "type": ["null", "string"],
+      "default": ""
+    },
+    {
+      "name": "app_id",
+      "type": "string"
+    }
+  ]
+}
