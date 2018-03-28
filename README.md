@@ -30,7 +30,7 @@ Things you may want to cover:
 2. Presentations controller
 3. Ratings controller
 4. Getting accept header to display in swagger-ui
-5. Set known apps and settings from metrics-site via an API
+5. Set known apps and settings from interactions-site via an API
 
 # Notes
 

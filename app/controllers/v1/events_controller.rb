@@ -14,7 +14,7 @@ class V1::EventsController < ApplicationController
     # debugger
     # kafka.del
     debugger
-    # kafka = Kafka.new(["localhost:9092"], client_id: "metrics-api_#{SecureRandom.hex(3)}", logger: Rails.logger)
+    # kafka = Kafka.new(["localhost:9092"], client_id: "interactions-api_#{SecureRandom.hex(3)}", logger: Rails.logger)
 
     # kafka.deliver_message("Hello, World!", topic: "greetings")
 

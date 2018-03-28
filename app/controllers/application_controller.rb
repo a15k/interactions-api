@@ -11,7 +11,7 @@ class ApplicationController < ActionController::API
   end
 
   def kafka
-    Thread.current[:kafka_client] ||= Kafka.new(["localhost:9092"], client_id: "metrics-api_#{SecureRandom.uuid}", logger: Rails.logger)
+    Thread.current[:kafka_client] ||= Kafka.new(["localhost:9092"], client_id: "interactions-api_#{SecureRandom.uuid}", logger: Rails.logger)
   end
 
   def kafka_producer

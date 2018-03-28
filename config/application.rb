@@ -18,7 +18,7 @@ require "rails/test_unit/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module MetricsApi
+module InteractionsApi
   class Application < Rails::Application
 
     # This will allow GET, POST or OPTIONS requests from any origin on any resource.

@@ -5,7 +5,7 @@ class Docs::V1Controller < ApplicationController
     key :swagger, '2.0'
     info do
       key :version, '1.0.0'
-      key :title, 'Assessment Network Metrics API'
+      key :title, 'Assessment Network Interactions API'
       key :description, <<-DESC
 >
 Records feedback on and interactions with content distributed by the Assessment Network
