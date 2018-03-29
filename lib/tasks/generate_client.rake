@@ -19,14 +19,17 @@ namespace :generate_client do
     api_exact_version = swagger_json["info"]["version"]
 
     output_dir = "#{Rails.application.root}/tmp/ruby-models/#{api_exact_version}"
+    FileUtils::rm_rf(output_dir)
     FileUtils::mkdir_p(output_dir)
+
+    gem_name = "interactions_api_models"
 
     config_file_name = "#{output_dir}/config.json"
     config_file = File.open(config_file_name, "w") do |file|
       contents = <<-DESC.strip_heredoc
         {
-          "gemName": "interactions_api_models",
-          "moduleName": "InteractionsApi",
+          "gemName": "#{gem_name}",
+          "moduleName": "Api::V#{args[:api_major_version]}::Bindings",
           "gemVersion": "#{api_exact_version}"
         }
       DESC
@@ -42,6 +45,12 @@ namespace :generate_client do
     `#{cmd}`
 
     File.delete(config_file_name)
+
+    bindings_dir = "#{Rails.application.root}/app/bindings/api/v#{args[:api_major_version]}/bindings"
+    FileUtils::rm_rf(bindings_dir)
+    FileUtils::mkdir_p(bindings_dir)
+    # debugger
+    FileUtils::cp(Dir.glob("#{output_dir}/lib/#{gem_name}/models/*.rb"), bindings_dir, verbose: true)
   end
 
 end
