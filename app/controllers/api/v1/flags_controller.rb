@@ -26,7 +26,7 @@ class Api::V1::FlagsController < ApplicationController
       parameter do
         key :name, :content_uid
         key :in, :body
-        key :description, 'Unique ID of the content being flagged'
+        key :description, 'Unique ID of the content being flagged' # a15k ID or app's ID? either?
         key :required, true
         key :type, :string
       end

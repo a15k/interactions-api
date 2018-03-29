@@ -20,7 +20,9 @@ gem 'celluloid', '~> 0.17.0'
 
 gem 'avro_turf'
 
-gem "api-versions", "~> 1.0"
+# gem "api-versions", "~> 1.0"
+
+gem "versionist"
 
 gem "swagger-blocks"
 

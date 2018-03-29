@@ -6,6 +6,13 @@ class ApplicationController < ActionController::API
 
   protected
 
+  def authenticate_admin_token
+    raise "NYI"
+
+    # if don't recognize the token, give 401
+    # if recognize the token but not admin, give 403
+  end
+
   def initialize_apps
     Thread.current[:apps] ||= Apps.new
   end
