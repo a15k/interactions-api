@@ -31,6 +31,9 @@ Things you may want to cover:
 3. Ratings controller
 4. Getting accept header to display in swagger-ui
 5. Set known apps and settings from interactions-site via an API
+6. rack-attack to throttle requests (e.g. flags X/min)
+7. Require SSL
+8. Clean out un-needed dependencies
 
 # Notes
 
