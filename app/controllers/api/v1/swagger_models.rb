@@ -2,12 +2,34 @@ module Api::V1::SwaggerModels
   include Swagger::Blocks
 
   swagger_schema :Flag do
-    key :required, [:app_uid, :content_uid]
-    property :app_uid do
+    key :required, [:id, :app_uid, :content_uid, :user_uid, :type]
+    property :id do
       key :type, :string
+      key :readOnly, true
+      key :description, "Internally-set UUID.  Used to retrieve and delete flags, so treat it as somewhat secret."
+    end
+    property :app_api_id do
+      key :type, :string
+      key :description, 'THe API ID of the app where the flag originated'
     end
     property :content_uid do
       key :type, :string
+    end
+    property :user_uid do
+      key :type, :string
+      key :description, "The ID of the user doing the flagging, unique in the " \
+                        "scope of the reporting app"
+    end
+    property :type do
+      key :type, :string
+      key :description, "The type of flag"
+      key :enum, [
+        :unspecified, :type, :copyright_violation, :incorrect, :offensive
+      ]
+    end
+    property :explanation do
+      key :type, :string
+      key :description, "The end-user's explanation of why they added this flag."
     end
   end
 
@@ -16,7 +38,7 @@ module Api::V1::SwaggerModels
     property :id do
       key :type, :string
       key :readOnly, true
-      key :description, "Internal ID"
+      key :description, "Internally-set ID"
     end
     property :name do
       key :type, :string
@@ -41,6 +63,10 @@ module Api::V1::SwaggerModels
   end
 
   swagger_schema :Error do
+    property :status_code do
+      key :type, :integer
+      key :description, "The HTTP status code"
+    end
     property :messages do
       key :type, :array
       key :description, "The error messages, if any"

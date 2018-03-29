@@ -1,9 +1,7 @@
-require "kafka"
+require "kafka"  # TODO clean up these requires
 require "byebug"
 require "avro_turf"
 require 'avro_turf/messaging'
-
-# no longer correct: curl -X POST -H "Accept: application/vnd.a15k.v1" http://localhost:3000/events
 
 class Api::V1::FlagsController < ApplicationController
   include Swagger::Blocks
@@ -11,45 +9,29 @@ class Api::V1::FlagsController < ApplicationController
   swagger_path '/flags' do
     operation :post do
       key :summary, 'Flag some content'
-      key :description, 'Flags a certain piece of content'
+      key :description, 'Adds a flag to some content for some user in some app.'
       key :operationId, 'createFlag'
       key :tags, [
         'Flags'
       ]
       parameter do
-        key :name, :app_uid
+        key :name, :flag
         key :in, :body
-        key :description, 'Unique ID of the app where the flag originated'
+        key :description, 'The flag data'
         key :required, true
-        key :type, :string
-      end
-      parameter do
-        key :name, :content_uid
-        key :in, :body
-        key :description, 'Unique ID of the content being flagged' # a15k ID or app's ID? either?
-        key :required, true
-        key :type, :string
-      end
-      parameter do
-        key :name, :user_uid
-        key :in, :body
-        key :description, 'ID of the user doing the flag, unique in the scope of the reporting app'
-        key :required, true
-        key :type, :string
-      end
-      response 200 do
-        key :description, 'The created flag'
         schema do
           key :'$ref', :Flag
         end
       end
-      response :default do
-        key :description, 'unexpected error'
+      response 200 do
+        key :description, 'Success.  Returns the created flag.'
+        schema do
+          key :'$ref', :Flag
+        end
       end
+      extend Api::V1::SwaggerResponses::AuthenticationError
     end
   end
-
-
 
   def create
     # See old V1::EventsController for some Kafka playing
@@ -61,15 +43,64 @@ class Api::V1::FlagsController < ApplicationController
     # 5. Write the flagging event to Kafka
   end
 
+  swagger_path '/flags/{id}' do
+    operation :get do
+      key :summary, 'Retrieve a flag'
+      key :description, 'Retrieve a flag'
+      key :operationId, 'getFlag'
+      key :tags, [
+        'Flags'
+      ]
+      parameter do
+        key :name, :id
+        key :in, :path
+        key :description, 'ID of the flag to retrieve'
+        key :required, true
+        key :type, :string
+      end
+      response 200 do
+        key :description, 'Success.  Returns the requested flag.'
+        schema do
+          key :'$ref', :Flag
+        end
+      end
+      extend Api::V1::SwaggerResponses::NotFoundError
+    end
+  end
 
+  def show
+    # how to handle security? assume internally-generated UUIDs not guessable and dear lord don't make them
+    # searchable
+  end
 
-  # TODO add a delete endpoint; all flags should be returned in the presentation request
-  # can also add an index here that returns all flags for a user/app/content combo.
-  # Need delete so someone can unflag, duh.
+  swagger_path '/flags/{id}' do
+    operation :delete do
+      key :summary, 'Delete a flag'
+      key :description, 'Delete a flag'
+      key :operationId, 'deleteFlag'
+      key :tags, [
+        'Flags'
+      ]
+      parameter do
+        key :name, :id
+        key :in, :path
+        key :description, 'ID of the flag to delete'
+        key :required, true
+        key :type, :string
+      end
+      response 200 do
+        key :description, 'Success.  Returns the deleted flag.'
+        schema do
+          key :'$ref', :Flag
+        end
+      end
+      extend Api::V1::SwaggerResponses::NotFoundError
+    end
+  end
 
-
-  # Deletion API makes me realize that web API schemas and Kafka schemas are different
-  # after all.  Kafka needs a "FlaggedContent" and "UnflaggedContent" schema
+  def destroy
+    # how to handle security?
+  end
 
 
 end

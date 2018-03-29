@@ -15,6 +15,14 @@ module Api::V1::SwaggerResponses
     end
   end
 
+  module NotFoundError
+    def self.extended(base)
+      base.response 404 do
+        key :description, 'Not found'
+      end
+    end
+  end
+
   module ServerError
     def self.extended(base)
       base.response 500 do

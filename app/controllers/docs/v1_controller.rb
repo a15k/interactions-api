@@ -1,3 +1,5 @@
+require 'uri'
+
 class Docs::V1Controller < ApplicationController
   include Swagger::Blocks
 
@@ -34,7 +36,11 @@ class Docs::V1Controller < ApplicationController
       key :description, 'Some API endpoints are limited to approved applications.  These endpoints ' \
                         ' manage these applications and are restricted to system administrators.'
     end
-    key :host, 'interactions.a15k.org'
+    tag do
+      key :name, 'Flags'
+      key :description, ''
+    end
+    key :host, URI.parse(Rails.application.secrets.base_url).host
     key :basePath, '/api'
     key :consumes, [ACCEPT_HEADER]
     key :produces, ['application/json']
