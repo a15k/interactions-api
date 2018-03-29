@@ -8,19 +8,27 @@ DESC
 task :generate_model_bindings, [:api_major_version] => :environment do |tt,args|
   api_major_version = args[:api_major_version]
 
+  # Get the swagger data so we can extract the current API version
+
   swagger_data = Swagger::Blocks.build_root_json(
     "Docs::V#{api_major_version}Controller::SWAGGERED_CLASSES".constantize
   )
 
   api_exact_version = swagger_data[:info][:version]
 
+  # Prep the tmp dir
+
   output_dir = "#{Rails.application.root}/tmp/ruby-models/#{api_exact_version}"
   FileUtils::rm_rf(output_dir)
   FileUtils::mkdir_p(output_dir)
 
-  swagger_json_file_name = "#{output_dir}/swagger.json"
+  # Write the swagger data to a JSON file (so we don't have to run the web server
+  # to provide it to swagger-codegen)
 
+  swagger_json_file_name = "#{output_dir}/swagger.json"
   File.open(swagger_json_file_name, "w") {|f| f.write(swagger_data.to_json)}
+
+  # Create a config.json file to control the generation
 
   gem_name = "interactions_api_models"
 
@@ -36,7 +44,7 @@ task :generate_model_bindings, [:api_major_version] => :environment do |tt,args|
     file.write(contents)
   end
 
-  swagger_json_url = "#{Rails.application.secrets.base_url}/api/docs/v#{api_major_version}"
+  # Build and run the swagger-codegen command
 
   cmd = <<-DESC.strip_heredoc
     swagger-codegen generate -i #{swagger_json_file_name} \
@@ -46,7 +54,9 @@ task :generate_model_bindings, [:api_major_version] => :environment do |tt,args|
   puts cmd
   `#{cmd}`
 
-  File.delete(config_file_name)
+  File.delete(config_file_name) # get rid of the config file
+
+  # Move the models to the app/bindings directory
 
   bindings_dir = "#{Rails.application.root}/app/bindings/api/v#{api_major_version}/bindings"
   FileUtils::rm_rf(bindings_dir)

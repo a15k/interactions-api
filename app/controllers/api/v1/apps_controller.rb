@@ -47,9 +47,9 @@ class Api::V1::AppsController < ApplicationController
           key :'$ref', :App
         end
       end
-      response :default do
-        key :description, 'unexpected error'
-      end
+      extend Api::V1::SwaggerResponses::AuthenticationError
+      extend Api::V1::SwaggerResponses::ForbiddenError
+      extend Api::V1::SwaggerResponses::ServerError
     end
   end
 
@@ -81,9 +81,9 @@ class Api::V1::AppsController < ApplicationController
           key :'$ref', :App
         end
       end
-      response :default do
-        key :description, 'unexpected error'
-      end
+      extend Api::V1::SwaggerResponses::AuthenticationError
+      extend Api::V1::SwaggerResponses::ForbiddenError
+      extend Api::V1::SwaggerResponses::ServerError
     end
   end
 
@@ -116,9 +116,9 @@ class Api::V1::AppsController < ApplicationController
           key :'$ref', :App
         end
       end
-      response :default do
-        key :description, 'unexpected error'
-      end
+      extend Api::V1::SwaggerResponses::AuthenticationError
+      extend Api::V1::SwaggerResponses::ForbiddenError
+      extend Api::V1::SwaggerResponses::ServerError
     end
   end
 
@@ -150,9 +150,9 @@ class Api::V1::AppsController < ApplicationController
           key :'$ref', :App
         end
       end
-      response :default do
-        key :description, 'unexpected error'
-      end
+      extend Api::V1::SwaggerResponses::AuthenticationError
+      extend Api::V1::SwaggerResponses::ForbiddenError
+      extend Api::V1::SwaggerResponses::ServerError
     end
   end
 
