@@ -45,16 +45,38 @@ RSpec.configure do |config|
 
   # Inject the correct accept header in routing specs
   config.before(:example, accept: :v1, type: :routing) do
-    version = self.class.metadata[:accept]
-
-    return if version.nil?
-
-    accept_header = "Docs::#{version.upcase}Controller::ACCEPT_HEADER".constantize
-
     expect(Rack::MockRequest).to receive(:env_for).and_wrap_original do |original_method, *args, &block|
       original_method.call(*args, &block).tap { |hash| hash['HTTP_ACCEPT'] = accept_header }
     end
   end
 
+  config.before(:example, accept: :v1, type: :request) do
+    headers["ACCEPT"] = accept_header
+  end
+
   config.include JsonHelpers, type: :request
+end
+
+def accept_header
+  version = self.class.metadata[:accept]
+
+  return if version.nil?
+
+  "Docs::#{version.upcase}Controller::ACCEPT_HEADER".constantize
+end
+
+def set_admin_api_token
+  set_api_token(Rails.application.secrets.admin_api_token)
+end
+
+def set_bad_admin_api_token
+  set_api_token("intentionally_bad_value")
+end
+
+def set_api_token(value)
+  headers['X-API-TOKEN'] = value
+end
+
+def headers
+  @headers ||= {}
 end

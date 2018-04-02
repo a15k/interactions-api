@@ -1,7 +1,7 @@
 =begin
 #Assessment Network Interactions API
 
-#> Records interactions with content distributed by the Assessment Network  Requests to this API must include `application/vnd.interactions.a15k.org; version=1` in the `Accept` header.  A few endpoints require an API key to be passed in the request header.  These keys are available to members through www.a15k.org. 
+#> Records interactions with content distributed by the Assessment Network  Requests to this API should include `application/vnd.interactions.a15k.org; version=1` in the `Accept` header.  While the API does support a default version, that version will change over time and therefore should not be used in production code!  A few endpoints require an API key to be passed in the request header.  These keys are available to members through www.a15k.org. 
 
 OpenAPI spec version: 1.0.0
 
@@ -27,6 +27,9 @@ module Api::V1::Bindings
     # Used to identify the app in secured API requests, normally as part of the HTTP header
     attr_accessor :api_token
 
+    # Used to group apps
+    attr_accessor :group_id
+
     # List of domains that should be allowed to make cross-origin AJAX requests
     attr_accessor :whitelisted_domains
 
@@ -38,6 +41,7 @@ module Api::V1::Bindings
         :'name' => :'name',
         :'api_id' => :'api_id',
         :'api_token' => :'api_token',
+        :'group_id' => :'group_id',
         :'whitelisted_domains' => :'whitelisted_domains'
       }
     end
@@ -49,6 +53,7 @@ module Api::V1::Bindings
         :'name' => :'String',
         :'api_id' => :'String',
         :'api_token' => :'String',
+        :'group_id' => :'String',
         :'whitelisted_domains' => :'Array<String>'
       }
     end
@@ -75,6 +80,10 @@ module Api::V1::Bindings
 
       if attributes.has_key?(:'api_token')
         self.api_token = attributes[:'api_token']
+      end
+
+      if attributes.has_key?(:'group_id')
+        self.group_id = attributes[:'group_id']
       end
 
       if attributes.has_key?(:'whitelisted_domains')
@@ -127,6 +136,7 @@ module Api::V1::Bindings
           name == o.name &&
           api_id == o.api_id &&
           api_token == o.api_token &&
+          group_id == o.group_id &&
           whitelisted_domains == o.whitelisted_domains
     end
 
@@ -139,7 +149,7 @@ module Api::V1::Bindings
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [id, name, api_id, api_token, whitelisted_domains].hash
+      [id, name, api_id, api_token, group_id, whitelisted_domains].hash
     end
 
     # Builds the object from hash

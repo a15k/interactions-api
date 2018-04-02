@@ -20,11 +20,14 @@ gem 'celluloid', '~> 0.17.0'
 
 gem 'avro_turf'
 
-# gem "api-versions", "~> 1.0"
-
 gem "versionist"
 
 gem "swagger-blocks"
+
+gem "oj"
+gem "oj_mimic_json"
+
+gem "ohm"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -32,6 +35,8 @@ group :development, :test do
 
   # Use RSpec for tests
   gem 'rspec-rails'
+
+  # gem "fakeredis", :require => "fakeredis/rspec"
 end
 
 group :development do

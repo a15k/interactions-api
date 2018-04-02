@@ -30,7 +30,7 @@ class Docs::V1Controller < ApplicationController
     end
     security_definition :api_token do
       key :type, :apiKey
-      key :name, :api_token
+      key :name, :'X-API-TOKEN'
       key :in, :header
     end
     tag do

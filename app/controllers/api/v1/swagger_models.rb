@@ -51,7 +51,13 @@ module Api::V1::SwaggerModels
     end
     property :api_token do
       key :type, :string
+      key :readOnly, true
       key :description, "Used to identify the app in secured API requests, normally as part of the HTTP header"
+    end
+    property :group_id do
+      key :type, :string
+      key :readOnly, true
+      key :description, "Used to group apps"
     end
     property :whitelisted_domains do
       key :type, :array

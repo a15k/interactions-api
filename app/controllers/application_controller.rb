@@ -4,13 +4,22 @@ class ApplicationController < ActionController::API
 
   before_action :initialize_apps
 
+  # rescue_from User::NotAuthorized, with: :deny_access # self defined exception
+  # rescue_from ActiveRecord::RecordInvalid, with: :show_errors
+
+  # rescue_from 'MyAppError::Base' do |exception|
+  #   render xml: exception, status: 500
+  # end
+
   protected
 
-  def authenticate_admin_token
-    raise "NYI"
+  def api_token
+    request.headers['X-API-TOKEN']
+  end
 
-    # if don't recognize the token, give 401
-    # if recognize the token but not admin, give 403
+  def authenticate_admin_token
+    return head(:unauthorized) if api_token.nil?
+    return head(:forbidden) if api_token != Rails.application.secrets.admin_api_token
   end
 
   def initialize_apps

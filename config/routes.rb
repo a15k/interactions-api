@@ -9,14 +9,11 @@ Rails.application.routes.draw do
       default: true
     ) do
 
-      resources :apps, only: [:create, :show, :update, :destroy] do
-        post :clone, on: :member
-      end
+      resources :apps, only: [:index, :create, :show, :update, :destroy]
       resources :flags, only: [:create, :show, :destroy]
       resources :ratings, only: [:create, :show, :destroy]
       resources :presentations, only: [:create]
       resources :heartbeats, only: [:create]
-
 
     end
 
