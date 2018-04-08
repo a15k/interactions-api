@@ -3,8 +3,10 @@ require "byebug"
 require "avro_turf"
 require 'avro_turf/messaging'
 
-class Api::V1::FlagsController < ApplicationController
+class Api::V1::FlagsController < Api::V1::BaseController
   include Swagger::Blocks
+
+  before_action :authenticate_api_id_and_domain
 
   swagger_path '/flags' do
     operation :post do
@@ -14,6 +16,9 @@ class Api::V1::FlagsController < ApplicationController
       key :tags, [
         'Flags'
       ]
+      security do
+        key :api_id, []
+      end
       parameter do
         key :name, :flag
         key :in, :body
@@ -34,11 +39,16 @@ class Api::V1::FlagsController < ApplicationController
   end
 
   def create
-    # 1. Parse and validate the incoming input
-    # 2. Verify that the app UID is known
-    # 3. Verify that the domain is whitelisted (if not already part of CORS check)
-    # 4. Write the flag to redis (keep a list there)
-    # 5. Write the flagging event to Kafka
+    flag, error = bind(params[:flag], Api::V1::Bindings::Flag)
+
+    if !error
+      # 4. Write the flag to redis (keep a list there)
+      # 5. Write the flagging event to Kafka (track domain too, timestamp, others?)
+    else
+      render json: error, status: error.status_code
+    end
+
+
 
     # Some Kafka playing:
     # # kafka = Kafka.new(["localhost:9092"], client_id: "interactions-api_#{SecureRandom.hex(3)}", logger: Rails.logger)
@@ -61,6 +71,9 @@ class Api::V1::FlagsController < ApplicationController
       key :tags, [
         'Flags'
       ]
+      security do
+        key :api_id, []
+      end
       parameter do
         key :name, :id
         key :in, :path
@@ -91,6 +104,9 @@ class Api::V1::FlagsController < ApplicationController
       key :tags, [
         'Flags'
       ]
+      security do
+        key :api_id, []
+      end
       parameter do
         key :name, :id
         key :in, :path
@@ -107,6 +123,8 @@ class Api::V1::FlagsController < ApplicationController
       extend Api::V1::SwaggerResponses::NotFoundError
     end
   end
+
+  # TODO add update (if user changes flag we want to capture it as a change)
 
   def destroy
     # how to handle security?

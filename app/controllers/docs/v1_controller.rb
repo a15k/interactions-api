@@ -33,6 +33,11 @@ class Docs::V1Controller < ApplicationController
       key :name, :'X-API-TOKEN'
       key :in, :header
     end
+    security_definition :api_id do
+      key :type, :apiKey
+      key :name, :'X-API-ID'
+      key :in, :header
+    end
     tag do
       key :name, 'Apps'
       key :description, 'Some API endpoints are limited to approved applications.  These endpoints ' \

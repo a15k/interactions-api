@@ -5,3 +5,4 @@ require_relative 'application'
 Rails.application.initialize!
 
 require "kafka_helpers"
+require "redis_connection"

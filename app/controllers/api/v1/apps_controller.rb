@@ -1,7 +1,8 @@
-class Api::V1::AppsController < ApplicationController
+class Api::V1::AppsController < Api::V1::BaseController
   include Swagger::Blocks
 
-  before_action :authenticate_admin_token
+  before_action :authenticate_admin_api_token
+  before_action :get_app, only: [:show, :update, :destroy]
 
   swagger_path '/apps' do
     operation :post do
@@ -36,20 +37,8 @@ class Api::V1::AppsController < ApplicationController
   end
 
   def create
-    app = App.create(api_id: SecureRandom.base64(8),
-                     api_token: SecureRandom.base64(20),
-                     group_id: params[:group_id])
+    app = App.create(group_id: params[:group_id])
     render json: to_json(app), status: :created
-  end
-
-  def to_json(app)
-    Api::V1::Bindings::App.new(
-      id: app.id,
-      name: app.name,
-      api_id: app.api_id,
-      api_token: app.api_token,
-      whitelisted_domains: app.whitelisted_domains.map(&:value)
-    ).to_json
   end
 
   swagger_path '/apps/{id}' do
@@ -78,14 +67,13 @@ class Api::V1::AppsController < ApplicationController
       end
       extend Api::V1::SwaggerResponses::AuthenticationError
       extend Api::V1::SwaggerResponses::ForbiddenError
+      extend Api::V1::SwaggerResponses::NotFoundError
       extend Api::V1::SwaggerResponses::ServerError
     end
   end
 
   def show
-    app = App[params[:id]]
-    return head(:not_found) if app.nil?
-    render json: to_json(app), status: :success
+    render json: to_json(@app), status: :success
   end
 
   swagger_path '/apps' do
@@ -96,7 +84,8 @@ class Api::V1::AppsController < ApplicationController
       parameter do
         key :name, :group_id
         key :in, :query
-        key :description, 'ID under which apps are grouped (e.g. the UUID) of the app owner.'
+        key :description, 'ID under which apps are grouped (e.g. the UUID) of the app owner.' \
+                          'If not provided, returns all apps.'
         key :required, false
         key :type, :string
       end
@@ -119,7 +108,8 @@ class Api::V1::AppsController < ApplicationController
   end
 
   def index
-    raise "NYI"
+    apps = App.search(group_id: params[:group_id])
+    render json: apps.map{|app| to_json(app)}, status: :success
   end
 
   swagger_path '/apps' do
@@ -133,6 +123,13 @@ class Api::V1::AppsController < ApplicationController
       key :tags, [
         'Apps'
       ]
+      parameter do
+        key :name, :id
+        key :in, :path
+        key :description, 'ID of the app'
+        key :required, true
+        key :type, :string
+      end
       parameter do
         key :name, :app
         key :in, :body
@@ -149,12 +146,19 @@ class Api::V1::AppsController < ApplicationController
       end
       extend Api::V1::SwaggerResponses::AuthenticationError
       extend Api::V1::SwaggerResponses::ForbiddenError
+      extend Api::V1::SwaggerResponses::NotFoundError
       extend Api::V1::SwaggerResponses::ServerError
     end
   end
 
   def update
-    raise "NYI"
+    binding, error = bind(@app.to_hash.merge(params[:app]), Api::V1::Bindings::App)
+
+    render(json: error, status: error.status_code) and return if error
+
+    @app.update(name: binding.name, whitelisted_domains: binding.whitelisted_domains)
+
+    render json: to_json(@app), status: :success
   end
 
   swagger_path '/apps/{id}' do
@@ -183,12 +187,31 @@ class Api::V1::AppsController < ApplicationController
       end
       extend Api::V1::SwaggerResponses::AuthenticationError
       extend Api::V1::SwaggerResponses::ForbiddenError
+      extend Api::V1::SwaggerResponses::NotFoundError
       extend Api::V1::SwaggerResponses::ServerError
     end
   end
 
   def destroy
-    raise "NYI"
+    @app.destroy
+    render json: to_json(@app), status: :success
+  end
+
+  protected
+
+  def get_app
+    @app = App.find(params[:id])
+    return head(:not_found) if @app.nil?
+  end
+
+  def to_json(app)
+    Api::V1::Bindings::App.new(
+      id: app.id,
+      name: app.name,
+      api_id: app.api_id,
+      api_token: app.api_token,
+      whitelisted_domains: app.whitelisted_domains
+    ).to_json
   end
 
 end

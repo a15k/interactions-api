@@ -23,6 +23,17 @@ module Api::V1::SwaggerResponses
     end
   end
 
+  module UnprocessableEntityError
+    def self.extended(base)
+      base.response 422 do
+        key :description, 'Could not process request'
+        schema do
+          key :'$ref', :Error
+        end
+      end
+    end
+  end
+
   module ServerError
     def self.extended(base)
       base.response 500 do

@@ -16,8 +16,6 @@ gem 'rack-cors'
 
 gem 'ruby-kafka'
 
-gem 'celluloid', '~> 0.17.0'
-
 gem 'avro_turf'
 
 gem "versionist"
@@ -27,7 +25,8 @@ gem "swagger-blocks"
 gem "oj"
 gem "oj_mimic_json"
 
-gem "ohm"
+gem 'redis'
+gem "redis-namespace"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -36,7 +35,10 @@ group :development, :test do
   # Use RSpec for tests
   gem 'rspec-rails'
 
-  # gem "fakeredis", :require => "fakeredis/rspec"
+  gem 'database_cleaner'
+
+  gem 'timecop'
+  gem "fakeredis", :require => "fakeredis/rspec"
 end
 
 group :development do

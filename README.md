@@ -9,8 +9,11 @@
 # TODOs
 
 1. Allow CORS for whitelisted origins (based on app users)
+1. Redis namespaces (interactions-api-test) and make sure database cleaning is compatible
 2. Rest of Flags controller
 2. Presentations controller
+3. Generate JS client lib and test from rspec (?) - can we autogenerate the client in Travis in a separate repo or travis build and test when this baseline changes?
+3. Should we allow API token in lieu of api ID and domain if provided?  If so change authenticate method names?
 3. Ratings controller
 4. Getting accept header to display in swagger-ui
 5. Set known apps and settings from interactions-site via an API

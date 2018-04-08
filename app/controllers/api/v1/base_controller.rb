@@ -1,6 +1,18 @@
-class ApplicationController < ActionController::API
+class Api::V1::BaseController < ApplicationController
 
   protected
+
+  def bind(data, bindings_class)
+    begin
+      binding = bindings_class.new(data)
+    rescue ArgumentError => ee
+      return [nil, Api::V1::Error.new(status_code: 422, messages: [ee.message])]
+    end
+
+    return [binding, nil] if binding.valid?
+
+    [binding, Api::V1::Error.new(status_code: 422, messages: ee.list_invalid_properties)]
+  end
 
   def api_token
     request.headers['X-API-TOKEN']  # TODO rename private token and public token?
@@ -30,7 +42,7 @@ class ApplicationController < ActionController::API
   end
 
   def apps
-    Thread.current[:apps] ||= CachedApps.new
+    Thread.current[:apps] ||= Apps.new
   end
 
 end

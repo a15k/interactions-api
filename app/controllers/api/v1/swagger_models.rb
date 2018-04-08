@@ -8,11 +8,10 @@ module Api::V1::SwaggerModels
       key :readOnly, true
       key :description, "Internally-set UUID.  Used to retrieve and delete flags, so treat it as somewhat secret."
     end
-    property :app_api_id do
-      key :type, :string
-      key :description, 'THe API ID of the app where the flag originated'
-    end
     property :content_uid do
+      key :type, :string
+    end
+    property :variant_id do
       key :type, :string
     end
     property :user_uid do

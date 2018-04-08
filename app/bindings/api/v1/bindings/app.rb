@@ -1,7 +1,7 @@
 =begin
 #Assessment Network Interactions API
 
-#> Records interactions with content distributed by the Assessment Network  Requests to this API should include `application/vnd.interactions.a15k.org; version=1` in the `Accept` header.  While the API does support a default version, that version will change over time and therefore should not be used in production code!  A few endpoints require an API key to be passed in the request header.  These keys are available to members through www.a15k.org. 
+#> Records interactions with content distributed by the Assessment Network  Requests to this API should include `application/vnd.interactions.a15k.org; version=1` in the `Accept` header.  While the API does support a default version, that version will change over time and therefore should not be used in production code!  A few endpoints require an API key to be passed in the request header.  These keys are available to members through www.a15k.org.
 
 OpenAPI spec version: 1.0.0
 

@@ -22,6 +22,10 @@ require 'rspec/rails'
 #
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
+require 'database_cleaner'
+
+# DatabaseCleaner[:redis] = redis #{ }"redis://localhost:6379/0"
+
 RSpec.configure do |config|
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
@@ -43,6 +47,19 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
+  redis_namespace = Rails.application.secrets.redis[:namespaces][:main]
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :truncation, {only: ["#{redis_namespace}:*"]}
+    DatabaseCleaner.clean_with(:truncation, only: ["#{redis_namespace}:*"])
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
   # Inject the correct accept header in routing specs
   config.before(:example, accept: :v1, type: :routing) do
     expect(Rack::MockRequest).to receive(:env_for).and_wrap_original do |original_method, *args, &block|
@@ -53,6 +70,10 @@ RSpec.configure do |config|
   config.before(:example, accept: :v1, type: :request) do
     headers["ACCEPT"] = accept_header
   end
+
+  # config.before(:example) do
+  #   App.all.each(&:delete)
+  # end
 
   config.include JsonHelpers, type: :request
 end
