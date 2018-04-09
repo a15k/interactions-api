@@ -10,12 +10,17 @@ module Api::V1::SwaggerModels
     end
     property :content_uid do
       key :type, :string
+      key :readOnly, true
+      key :description, "The a15k ID of the content being flagged."
     end
     property :variant_id do
       key :type, :string
+      key :readOnly, true
+      key :description, "The variant ID, only needed for generative assessments"
     end
     property :user_uid do
       key :type, :string
+      key :readOnly, true
       key :description, "The ID of the user doing the flagging, unique in the " \
                         "scope of the reporting app"
     end

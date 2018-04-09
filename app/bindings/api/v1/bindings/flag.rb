@@ -18,10 +18,11 @@ module Api::V1::Bindings
     # Internally-set UUID.  Used to retrieve and delete flags, so treat it as somewhat secret.
     attr_accessor :id
 
-    # THe API ID of the app where the flag originated
-    attr_accessor :app_api_id
-
+    # The a15k ID of the content being flagged.
     attr_accessor :content_uid
+
+    # The variant ID, only needed for generative assessments
+    attr_accessor :variant_id
 
     # The ID of the user doing the flagging, unique in the scope of the reporting app
     attr_accessor :user_uid
@@ -58,8 +59,8 @@ module Api::V1::Bindings
     def self.attribute_map
       {
         :'id' => :'id',
-        :'app_api_id' => :'app_api_id',
         :'content_uid' => :'content_uid',
+        :'variant_id' => :'variant_id',
         :'user_uid' => :'user_uid',
         :'type' => :'type',
         :'explanation' => :'explanation'
@@ -70,8 +71,8 @@ module Api::V1::Bindings
     def self.swagger_types
       {
         :'id' => :'String',
-        :'app_api_id' => :'String',
         :'content_uid' => :'String',
+        :'variant_id' => :'String',
         :'user_uid' => :'String',
         :'type' => :'String',
         :'explanation' => :'String'
@@ -90,12 +91,12 @@ module Api::V1::Bindings
         self.id = attributes[:'id']
       end
 
-      if attributes.has_key?(:'app_api_id')
-        self.app_api_id = attributes[:'app_api_id']
-      end
-
       if attributes.has_key?(:'content_uid')
         self.content_uid = attributes[:'content_uid']
+      end
+
+      if attributes.has_key?(:'variant_id')
+        self.variant_id = attributes[:'variant_id']
       end
 
       if attributes.has_key?(:'user_uid')
@@ -163,8 +164,8 @@ module Api::V1::Bindings
       return true if self.equal?(o)
       self.class == o.class &&
           id == o.id &&
-          app_api_id == o.app_api_id &&
           content_uid == o.content_uid &&
+          variant_id == o.variant_id &&
           user_uid == o.user_uid &&
           type == o.type &&
           explanation == o.explanation
@@ -179,7 +180,7 @@ module Api::V1::Bindings
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [id, app_api_id, content_uid, user_uid, type, explanation].hash
+      [id, content_uid, variant_id, user_uid, type, explanation].hash
     end
 
     # Builds the object from hash

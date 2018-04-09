@@ -1,12 +1,8 @@
-require "kafka"  # TODO clean up these requires
-require "byebug"
-require "avro_turf"
-require 'avro_turf/messaging'
-
 class Api::V1::FlagsController < Api::V1::BaseController
   include Swagger::Blocks
 
   before_action :authenticate_api_id_and_domain
+  before_action :get_flag, only: [:show, :update, :destroy]
 
   swagger_path '/flags' do
     operation :post do
@@ -35,38 +31,31 @@ class Api::V1::FlagsController < Api::V1::BaseController
         end
       end
       extend Api::V1::SwaggerResponses::AuthenticationError
+      extend Api::V1::SwaggerResponses::ForbiddenError
+      extend Api::V1::SwaggerResponses::ServerError
     end
   end
 
   def create
-    flag, error = bind(params[:flag], Api::V1::Bindings::Flag)
+    binding, error = bind(params[:flag], Api::V1::Bindings::Flag)
 
-    if !error
-      # 4. Write the flag to redis (keep a list there)
-      # 5. Write the flagging event to Kafka (track domain too, timestamp, others?)
-    else
-      render json: error, status: error.status_code
-    end
+    render(json: error, status: error.status_code) and return if error
 
+    flag = Flag.create(app_api_id: api_id,
+                       source_domain: origin,
+                       content_uid: binding.content_uid,
+                       variant_id: binding.variant_id,
+                       user_uid: binding.user_uid,
+                       type: binding.type,
+                       explanation: binding.explanation)
 
-
-    # Some Kafka playing:
-    # # kafka = Kafka.new(["localhost:9092"], client_id: "interactions-api_#{SecureRandom.hex(3)}", logger: Rails.logger)
-    # # kafka.deliver_message("Hello, World!", topic: "greetings")
-
-    # avro = AvroTurf::Messaging.new(registry_url: "http://localhost:8081/", schemas_path: "app/schemas", namespace: "org.a15k")
-
-    # # Encoding data has the side effect of registering the schema. This only
-    # # happens the first time a schema is used with the instance of `AvroTurf`.
-    # data = avro.encode({ "flag_type" => "typo", "app_id" => "blah" }, schema_name: "flagged_content")
-
-    # kafka_producer.produce(data, topic: "greetings")
+    render json: to_json(flag), status: :created
   end
 
   swagger_path '/flags/{id}' do
     operation :get do
       key :summary, 'Retrieve a flag'
-      key :description, 'Retrieve a flag'
+      key :description, 'Retrieve a flag.  Anyone with the flag ID (very hard to guess) can retrieve it.'
       key :operationId, 'getFlag'
       key :tags, [
         'Flags'
@@ -87,19 +76,70 @@ class Api::V1::FlagsController < Api::V1::BaseController
           key :'$ref', :Flag
         end
       end
+      extend Api::V1::SwaggerResponses::AuthenticationError
+      extend Api::V1::SwaggerResponses::ForbiddenError
       extend Api::V1::SwaggerResponses::NotFoundError
+      extend Api::V1::SwaggerResponses::ServerError
     end
   end
 
   def show
-    # how to handle security? assume internally-generated UUIDs not guessable and dear lord don't make them
-    # searchable
+    render json: to_json(@flag), status: :created
+  end
+
+  swagger_path '/flags' do
+    operation :put do
+      key :summary, 'Update a flag'
+      key :description, 'Update a flag with the provided values.'
+      key :operationId, 'updateFlag'
+      security do
+        key :api_id, []
+      end
+      key :tags, [
+        'Flags'
+      ]
+      parameter do
+        key :name, :id
+        key :in, :path
+        key :description, 'ID of the flag'
+        key :required, true
+        key :type, :string
+      end
+      parameter do
+        key :name, :flag
+        key :in, :body
+        key :description, 'The flag data'
+        schema do
+          key :'$ref', :Flag
+        end
+      end
+      response 200 do
+        key :description, 'Success.  Returns the updated flag.'
+        schema do
+          key :'$ref', :Flag
+        end
+      end
+      extend Api::V1::SwaggerResponses::AuthenticationError
+      extend Api::V1::SwaggerResponses::ForbiddenError
+      extend Api::V1::SwaggerResponses::NotFoundError
+      extend Api::V1::SwaggerResponses::ServerError
+    end
+  end
+
+  def update
+    binding, error = bind(@flag.to_hash.merge(params[:flag]), Api::V1::Bindings::Flag)
+
+    render(json: error, status: error.status_code) and return if error
+
+    @flag.update(type: binding.type, explanation: binding.explanation)
+
+    render json: to_json(@flag), status: :success
   end
 
   swagger_path '/flags/{id}' do
     operation :delete do
       key :summary, 'Delete a flag'
-      key :description, 'Delete a flag'
+      key :description, 'Delete a flag.  Anyone with the flag ID (very hard to guess) can delete it.'
       key :operationId, 'deleteFlag'
       key :tags, [
         'Flags'
@@ -120,15 +160,34 @@ class Api::V1::FlagsController < Api::V1::BaseController
           key :'$ref', :Flag
         end
       end
+      extend Api::V1::SwaggerResponses::AuthenticationError
+      extend Api::V1::SwaggerResponses::ForbiddenError
       extend Api::V1::SwaggerResponses::NotFoundError
+      extend Api::V1::SwaggerResponses::ServerError
     end
   end
 
-  # TODO add update (if user changes flag we want to capture it as a change)
-
   def destroy
-    # how to handle security?
+    @flag.destroy
+    render json: to_json(@flag), status: :created
   end
 
+  protected
+
+  def get_flag
+    @flag = Flag.find(params[:id])
+    return head(:not_found) if @flag.nil?
+  end
+
+  def to_json(flag)
+    Api::V1::Bindings::Flag.new(
+      id: flag.id,
+      content_uid: flag.content_uid,
+      variant_id: flag.variant_id,
+      user_uid: flag.user_uid,
+      type: flag.type,
+      explanation: flag.explanation
+    ).to_json
+  end
 
 end

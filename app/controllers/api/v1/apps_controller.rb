@@ -116,7 +116,7 @@ class Api::V1::AppsController < Api::V1::BaseController
     operation :put do
       key :summary, 'Update an app'
       key :description, 'Update an app with the provided values.'
-      key :operationId, 'createApp'
+      key :operationId, 'updateApp'
       security do
         key :api_token, []
       end
