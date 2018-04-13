@@ -14,10 +14,12 @@ task :generate_model_bindings, [:api_major_version] => :environment do |tt,args|
     api_exact_version = json[:info][:version]
     output_dir = "#{Rails.application.root}/tmp/ruby-models/#{api_exact_version}"
     {
-      cmd_options: '-l ruby -Dmodels',
+      cmd_options: %w[-l ruby -D models],
       output_dir: output_dir,
       config: {
         gemName: gem_name,
+        gemHomepage: 'https://a15k.org/clients/ruby',
+        gemRequiredRubyVersion: '>= 2.4',
         moduleName: "Api::V#{api_major_version}::Bindings",
         gemVersion: api_exact_version,
       }

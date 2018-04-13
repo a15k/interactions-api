@@ -3,6 +3,9 @@ require 'fileutils'
 
 module SwaggerCodegen
 
+  # You can find flags for various configs by running:
+  # swagger-codegen config-help -l <language>
+
   def self.execute(api_major_version)
 
     swagger_data = Swagger::Blocks.build_root_json(
@@ -25,15 +28,11 @@ module SwaggerCodegen
         config_file.flush
 
         # Build and run the swagger-codegen command
-        cmd = [
-          'swagger-codegen generate',
-          "-i #{swagger_json.path}",
-          options[:cmd_options],
-          "-o #{options[:output_dir]}",
-          "-c #{config_file.path}",
-        ].join(' ')
-        puts cmd
-        puts `#{cmd}`
+        puts system('swagger-codegen', 'generate',
+                    '-i', swagger_json.path,
+                    '-o', options[:output_dir],
+                    '-c', config_file.path,
+                    *options[:cmd_options])
       end
     end
 
