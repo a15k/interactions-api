@@ -73,7 +73,7 @@ class Api::V1::AppsController < Api::V1::BaseController
   end
 
   def show
-    render json: to_json(@app), status: :success
+    render json: to_json(@app), status: :ok
   end
 
   swagger_path '/apps' do
@@ -112,7 +112,7 @@ class Api::V1::AppsController < Api::V1::BaseController
 
   def index
     apps = App.search(group_id: params[:group_id])
-    render json: apps.map{|app| to_json(app)}
+    render json: apps.map{|app| to_json(app)}, status: :ok
   end
 
   swagger_path '/apps' do
@@ -161,7 +161,7 @@ class Api::V1::AppsController < Api::V1::BaseController
 
     @app.update(name: binding.name, whitelisted_domains: binding.whitelisted_domains)
 
-    render json: to_json(@app), status: :success
+    render json: to_json(@app), status: :ok
   end
 
   swagger_path '/apps/{id}' do
@@ -197,7 +197,7 @@ class Api::V1::AppsController < Api::V1::BaseController
 
   def destroy
     @app.destroy
-    render json: to_json(@app), status: :success
+    render json: to_json(@app), status: :ok
   end
 
   protected
