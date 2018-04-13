@@ -97,8 +97,11 @@ class Api::V1::AppsController < Api::V1::BaseController
       ]
       response 200 do
         key :description, 'Success.  Returns the requested apps.'
-        schema type: :array do
-          key :'$ref', :App
+        schema do
+          key :type, :array
+          items do
+            key :'$ref', :App
+          end
         end
       end
       extend Api::V1::SwaggerResponses::AuthenticationError
@@ -109,7 +112,7 @@ class Api::V1::AppsController < Api::V1::BaseController
 
   def index
     apps = App.search(group_id: params[:group_id])
-    render json: apps.map{|app| to_json(app)}, status: :success
+    render json: apps.map{|app| to_json(app)}
   end
 
   swagger_path '/apps' do
