@@ -1,0 +1,59 @@
+{
+  "_ourOwnSshKey": {
+    "ssh_keypair_name": "packer_jps",
+    "ssh_agent_auth": true
+  },
+  "_todos": [
+    "Make sure we are getting best Ubuntu image",
+    "add ansible pipelining"
+  ],
+  "_references": [
+    "pause before destroy instance: https://github.com/hashicorp/packer/issues/409#issuecomment-251363919"
+  ],
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "us-east-1",
+      "source_ami_filter": {
+        "filters": {
+        "virtualization-type": "hvm",
+        "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+        "root-device-type": "ebs"
+        },
+        "owners": ["099720109477"],
+        "most_recent": true
+      },
+      "instance_type": "t2.micro",
+      "ssh_username": "ubuntu",
+      "ami_name": "packer-example {{timestamp}}"
+    },
+    {
+      "type": "virtualbox-ovf",
+      "source_path": "/Users/jps/VirtualBox VMs/ubuntu-16.04-server-cloudimg-amd64.ova",
+      "ssh_username": "packer",
+      "ssh_password": "packer",
+      "shutdown_command": "echo 'packer' | sudo -S shutdown -P now"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "../deployment/interactions-api.yml",
+      "extra_arguments": [
+        "-vvvv",
+        "--extra-vars",
+        "{\"ansible_python_interpreter\": \"/usr/bin/env python3\"}"
+      ],
+      "ansible_env_vars": ["become=true"],
+      "user": "ubuntu"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "echo \"*** Pausing for 4 hours *** Hit Ctrl-C to terminate\"; sleep 14400; exit 1"
+      ]
+    }
+  ]
+}

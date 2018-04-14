@@ -62,3 +62,6 @@ pilfer.log
 
 # Ignore asset stuff
 public/assets/**
+
+# Packer temp keys
+*.pem

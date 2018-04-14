@@ -47,7 +47,7 @@ class Docs::V1Controller < ApplicationController
       key :name, 'Flags'
       key :description, ''
     end
-    key :host, URI.parse(Rails.application.secrets.base_url).host
+    # key :host, URI.parse(Rails.application.secrets.base_url).host
     key :basePath, '/api'
     key :consumes, [ACCEPT_HEADER]
     key :produces, ['application/json']
