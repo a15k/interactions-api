@@ -112,7 +112,7 @@ class Api::V1::AppsController < Api::V1::BaseController
 
   def index
     apps = App.search(group_id: params[:group_id])
-    render json: apps.map{|app| to_json(app)}, status: :ok
+    render json: apps, status: :ok
   end
 
   swagger_path '/apps' do
