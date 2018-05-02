@@ -6,16 +6,16 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.6'
+gem 'rails', '~> 5.2.0'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
-
+gem 'bootsnap', require: false
 gem 'ruby-kafka'
-
+gem 'webpacker'
 gem 'avro_turf'
 
 gem "versionist"
