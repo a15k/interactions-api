@@ -1,6 +1,7 @@
 # Assessment Network Interactions API
 
 [![Build Status](https://travis-ci.org/a15k/interactions-api.svg?branch=master)](https://travis-ci.org/a15k/interactions-api)
+[![codecov](https://codecov.io/gh/a15k/interactions-api/branch/master/graph/badge.svg)](https://codecov.io/gh/a15k/interactions-api)
 
 ## Autogenerating bindings
 
