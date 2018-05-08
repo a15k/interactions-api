@@ -41,6 +41,9 @@ group :development, :test do
 
   gem 'timecop'
   gem "fakeredis", :require => "fakeredis/rspec"
+
+  gem "codecov", require: false
+  gem "parallel_tests"
 end
 
 group :development do
