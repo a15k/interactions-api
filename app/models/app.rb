@@ -21,7 +21,7 @@ class App
     redis.multi do
       redis.set("apps:id:#{id}", to_json)
       redis.sadd("apps:all", id)
-      redis.sadd("apps:group:#{app.group_id}", id) if group_id.present?
+      redis.sadd("apps:group:#{group_id}", id) if group_id.present?
     end
     true
   end
