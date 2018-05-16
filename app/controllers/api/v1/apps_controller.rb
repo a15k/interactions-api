@@ -1,4 +1,4 @@
-class Api::V1::AppsController < Api::V1::BaseController
+class Api::V0::AppsController < Api::V0::BaseController
   include Swagger::Blocks
 
   before_action :authenticate_admin_api_token
@@ -30,9 +30,9 @@ class Api::V1::AppsController < Api::V1::BaseController
           key :'$ref', :App
         end
       end
-      extend Api::V1::SwaggerResponses::AuthenticationError
-      extend Api::V1::SwaggerResponses::ForbiddenError
-      extend Api::V1::SwaggerResponses::ServerError
+      extend Api::V0::SwaggerResponses::AuthenticationError
+      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::ServerError
     end
   end
 
@@ -65,10 +65,10 @@ class Api::V1::AppsController < Api::V1::BaseController
           key :'$ref', :App
         end
       end
-      extend Api::V1::SwaggerResponses::AuthenticationError
-      extend Api::V1::SwaggerResponses::ForbiddenError
-      extend Api::V1::SwaggerResponses::NotFoundError
-      extend Api::V1::SwaggerResponses::ServerError
+      extend Api::V0::SwaggerResponses::AuthenticationError
+      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::NotFoundError
+      extend Api::V0::SwaggerResponses::ServerError
     end
   end
 
@@ -104,9 +104,9 @@ class Api::V1::AppsController < Api::V1::BaseController
           end
         end
       end
-      extend Api::V1::SwaggerResponses::AuthenticationError
-      extend Api::V1::SwaggerResponses::ForbiddenError
-      extend Api::V1::SwaggerResponses::ServerError
+      extend Api::V0::SwaggerResponses::AuthenticationError
+      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::ServerError
     end
   end
 
@@ -147,15 +147,15 @@ class Api::V1::AppsController < Api::V1::BaseController
           key :'$ref', :App
         end
       end
-      extend Api::V1::SwaggerResponses::AuthenticationError
-      extend Api::V1::SwaggerResponses::ForbiddenError
-      extend Api::V1::SwaggerResponses::NotFoundError
-      extend Api::V1::SwaggerResponses::ServerError
+      extend Api::V0::SwaggerResponses::AuthenticationError
+      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::NotFoundError
+      extend Api::V0::SwaggerResponses::ServerError
     end
   end
 
   def update
-    binding, error = bind(@app.to_hash.merge(params[:app]), Api::V1::Bindings::App)
+    binding, error = bind(@app.to_hash.merge(params[:app]), Api::V0::Bindings::App)
 
     render(json: error, status: error.status_code) and return if error
 
@@ -188,10 +188,10 @@ class Api::V1::AppsController < Api::V1::BaseController
           key :'$ref', :App
         end
       end
-      extend Api::V1::SwaggerResponses::AuthenticationError
-      extend Api::V1::SwaggerResponses::ForbiddenError
-      extend Api::V1::SwaggerResponses::NotFoundError
-      extend Api::V1::SwaggerResponses::ServerError
+      extend Api::V0::SwaggerResponses::AuthenticationError
+      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::NotFoundError
+      extend Api::V0::SwaggerResponses::ServerError
     end
   end
 
@@ -208,7 +208,7 @@ class Api::V1::AppsController < Api::V1::BaseController
   end
 
   def to_json(app)
-    Api::V1::Bindings::App.new(
+    Api::V0::Bindings::App.new(
       id: app.id,
       name: app.name,
       api_id: app.api_id,

@@ -1,4 +1,4 @@
-class Api::V1::FlagsController < Api::V1::BaseController
+class Api::V0::FlagsController < Api::V0::BaseController
   include Swagger::Blocks
 
   before_action :authenticate_api_id_and_domain
@@ -30,14 +30,14 @@ class Api::V1::FlagsController < Api::V1::BaseController
           key :'$ref', :Flag
         end
       end
-      extend Api::V1::SwaggerResponses::AuthenticationError
-      extend Api::V1::SwaggerResponses::ForbiddenError
-      extend Api::V1::SwaggerResponses::ServerError
+      extend Api::V0::SwaggerResponses::AuthenticationError
+      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::ServerError
     end
   end
 
   def create
-    binding, error = bind(params[:flag], Api::V1::Bindings::Flag)
+    binding, error = bind(params[:flag], Api::V0::Bindings::Flag)
 
     render(json: error, status: error.status_code) and return if error
 
@@ -76,10 +76,10 @@ class Api::V1::FlagsController < Api::V1::BaseController
           key :'$ref', :Flag
         end
       end
-      extend Api::V1::SwaggerResponses::AuthenticationError
-      extend Api::V1::SwaggerResponses::ForbiddenError
-      extend Api::V1::SwaggerResponses::NotFoundError
-      extend Api::V1::SwaggerResponses::ServerError
+      extend Api::V0::SwaggerResponses::AuthenticationError
+      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::NotFoundError
+      extend Api::V0::SwaggerResponses::ServerError
     end
   end
 
@@ -119,15 +119,15 @@ class Api::V1::FlagsController < Api::V1::BaseController
           key :'$ref', :Flag
         end
       end
-      extend Api::V1::SwaggerResponses::AuthenticationError
-      extend Api::V1::SwaggerResponses::ForbiddenError
-      extend Api::V1::SwaggerResponses::NotFoundError
-      extend Api::V1::SwaggerResponses::ServerError
+      extend Api::V0::SwaggerResponses::AuthenticationError
+      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::NotFoundError
+      extend Api::V0::SwaggerResponses::ServerError
     end
   end
 
   def update
-    binding, error = bind(@flag.to_hash.merge(params[:flag]), Api::V1::Bindings::Flag)
+    binding, error = bind(@flag.to_hash.merge(params[:flag]), Api::V0::Bindings::Flag)
 
     render(json: error, status: error.status_code) and return if error
 
@@ -160,10 +160,10 @@ class Api::V1::FlagsController < Api::V1::BaseController
           key :'$ref', :Flag
         end
       end
-      extend Api::V1::SwaggerResponses::AuthenticationError
-      extend Api::V1::SwaggerResponses::ForbiddenError
-      extend Api::V1::SwaggerResponses::NotFoundError
-      extend Api::V1::SwaggerResponses::ServerError
+      extend Api::V0::SwaggerResponses::AuthenticationError
+      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::NotFoundError
+      extend Api::V0::SwaggerResponses::ServerError
     end
   end
 
@@ -180,7 +180,7 @@ class Api::V1::FlagsController < Api::V1::BaseController
   end
 
   def to_json(flag)
-    Api::V1::Bindings::Flag.new(
+    Api::V0::Bindings::Flag.new(
       id: flag.id,
       content_uid: flag.content_uid,
       variant_id: flag.variant_id,

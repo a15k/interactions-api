@@ -9,7 +9,7 @@ RSpec.describe "Apps", :type => :request, accept: :v1 do
       post '/api/apps', headers: headers
       expect(response).to have_http_status(:created)
 
-      bound_response = Api::V1::Bindings::App.new(json_response)
+      bound_response = Api::V0::Bindings::App.new(json_response)
 
       expect(bound_response.name).to be_blank
       expect(bound_response.id).to be_a String

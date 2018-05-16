@@ -1,4 +1,4 @@
-class Api::V1::RatingsController < Api::V1::BaseController
+class Api::V0::RatingsController < Api::V0::BaseController
   include Swagger::Blocks
 
 

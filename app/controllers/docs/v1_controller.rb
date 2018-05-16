@@ -1,6 +1,6 @@
 require 'uri'
 
-class Docs::V1Controller < ApplicationController
+class Docs::V0Controller < ApplicationController
   include Swagger::Blocks
 
   ACCEPT_HEADER = 'application/vnd.interactions.a15k.org; version=1'
@@ -54,9 +54,9 @@ class Docs::V1Controller < ApplicationController
   end
 
   SWAGGERED_CLASSES = [
-    Api::V1::FlagsController,
-    Api::V1::SwaggerModels,
-    Api::V1::AppsController,
+    Api::V0::FlagsController,
+    Api::V0::SwaggerModels,
+    Api::V0::AppsController,
     self,
   ].freeze
 
