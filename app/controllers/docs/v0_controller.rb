@@ -1,6 +1,6 @@
 require 'uri'
 
-class Docs::V1Controller < ApplicationController
+class Docs::V0Controller < ApplicationController
   include Swagger::Blocks
 
   ACCEPT_HEADER = 'application/vnd.interactions.a15k.org; version=1'
@@ -8,13 +8,13 @@ class Docs::V1Controller < ApplicationController
   swagger_root do
     key :swagger, '2.0'
     info do
-      key :version, '1.0.0'
+      key :version, '0.1.0'
       key :title, 'Assessment Network Interactions API'
       key :description, <<~DESC
           >
           Records interactions with content distributed by the Assessment Network
 
-          Requests to this API should include `application/vnd.interactions.a15k.org; version=1` in the
+          Requests to this API should include `application/vnd.interactions.a15k.org; version=0` in the
           `Accept` header.  While the API does support a default version, that version will change over
           time and therefore should not be used in production code!
 
@@ -54,9 +54,9 @@ class Docs::V1Controller < ApplicationController
   end
 
   SWAGGERED_CLASSES = [
-    Api::V1::FlagsController,
-    Api::V1::SwaggerModels,
-    Api::V1::AppsController,
+    Api::V0::FlagsController,
+    Api::V0::SwaggerModels,
+    Api::V0::AppsController,
     self,
   ].freeze
 

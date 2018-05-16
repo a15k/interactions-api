@@ -1,4 +1,4 @@
-module Api::V1::SwaggerResponses
+module Api::V0::SwaggerResponses
   module AuthenticationError
     def self.extended(base)
       base.response 401 do

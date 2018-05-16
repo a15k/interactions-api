@@ -1,4 +1,4 @@
-class Api::V1::HeartbeatsController < Api::V1::BaseController
+class Api::V0::HeartbeatsController < Api::V0::BaseController
   include Swagger::Blocks
 
 

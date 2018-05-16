@@ -61,13 +61,13 @@ RSpec.configure do |config|
   end
 
   # Inject the correct accept header in routing specs
-  config.before(:example, accept: :v1, type: :routing) do
+  config.before(:example, accept: :v0, type: :routing) do
     expect(Rack::MockRequest).to receive(:env_for).and_wrap_original do |original_method, *args, &block|
       original_method.call(*args, &block).tap { |hash| hash['HTTP_ACCEPT'] = accept_header }
     end
   end
 
-  config.before(:example, accept: :v1, type: :request) do
+  config.before(:example, accept: :v0, type: :request) do
     headers["ACCEPT"] = accept_header
   end
 

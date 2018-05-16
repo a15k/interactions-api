@@ -1,4 +1,4 @@
-module Api::V1::SwaggerModels
+module Api::V0::SwaggerModels
   include Swagger::Blocks
 
   swagger_schema :Flag do

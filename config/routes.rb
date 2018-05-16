@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   namespace :api do
 
     api_version(
-      module: 'V1',
-      header: { name: 'Accept', value: 'application/vnd.interactions.a15k.org; version=1' },
+      module: 'V0',
+      header: { name: 'Accept', value: 'application/vnd.interactions.a15k.org; version=0' },
       defaults: { format: :json },
       default: true
     ) do
@@ -19,6 +19,6 @@ Rails.application.routes.draw do
 
   end
 
-  get 'api/docs/v1', to: 'docs/v1#index'
+  get 'api/docs/v0', to: 'docs/v0#index'
 
 end
