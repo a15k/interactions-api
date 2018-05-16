@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Flags", :type => :request, accept: :v1 do
+RSpec.describe "Flags", :type => :request, accept: :v0 do
 
   context "create" do
     context "valid api ID and domain" do

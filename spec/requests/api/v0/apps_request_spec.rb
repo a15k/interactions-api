@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Apps", :type => :request, accept: :v1 do
+RSpec.describe "Apps", :type => :request, accept: :v0 do
 
   context "valid admin token" do
     before { set_admin_api_token }
