@@ -44,6 +44,17 @@ GEM
     avro_turf (0.8.0)
       avro (>= 1.7.7, < 1.9)
       excon (~> 0.45)
+    aws-eventstream (1.0.0)
+    aws-partitions (1.87.0)
+    aws-sdk-core (3.21.2)
+      aws-eventstream (~> 1.0)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-ssm (1.13.0)
+      aws-sdk-core (~> 3)
+      aws-sigv4 (~> 1.0)
+    aws-sigv4 (1.0.2)
     builder (3.2.3)
     byebug (10.0.0)
     codecov (0.1.10)
@@ -64,6 +75,7 @@ GEM
       activesupport (>= 4.2.0)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
+    jmespath (1.4.0)
     json (2.1.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -181,6 +193,7 @@ PLATFORMS
 
 DEPENDENCIES
   avro_turf
+  aws-sdk-ssm
   byebug
   codecov
   database_cleaner
