@@ -26,7 +26,4 @@ gem install --conservative bundler
 echo Installing gems
 bundle install
 
-echo Installing secrets
-bundle exec rake install_secrets
-
 echo Done!
