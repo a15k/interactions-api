@@ -15,11 +15,11 @@ class Api::V0::BaseController < ApplicationController
   end
 
   def api_token
-    request.headers['X-API-TOKEN']  # TODO rename private token and public token?
+    request.headers['Authorization'].try(:match, /Token\W*(\w+)/).try(:[],1)
   end
 
   def api_id
-    request.headers['X-API-ID']
+    request.headers['Authorization'].try(:match, /ID\W*(\w+)/).try(:[],1)
   end
 
   def origin
