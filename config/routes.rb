@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
     api_version(
       module: 'V0',
-      header: { name: 'Accept', value: 'application/vnd.interactions.a15k.org; version=0' },
+      path: { value: 'v0' },
       defaults: { format: :json },
       default: true
     ) do

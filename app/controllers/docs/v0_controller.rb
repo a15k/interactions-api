@@ -3,7 +3,7 @@ require 'uri'
 class Docs::V0Controller < ApplicationController
   include Swagger::Blocks
 
-  ACCEPT_HEADER = 'application/vnd.interactions.a15k.org; version=1'
+  ACCEPT_HEADER = 'application/json'
 
   swagger_root do
     key :swagger, '2.0'
@@ -14,11 +14,18 @@ class Docs::V0Controller < ApplicationController
           >
           Records interactions with content distributed by the Assessment Network
 
-          Requests to this API should include `application/vnd.interactions.a15k.org; version=0` in the
-          `Accept` header.  While the API does support a default version, that version will change over
+          Requests to this API should include `#{ACCEPT_HEADER}` in the
+          `Accept` header.
+
+          The desired API version is specified in the request URL, e.g. `...a15k.org/v0/flags`.
+          While the API does support a default version, that version will change over
           time and therefore should not be used in production code!
 
-          A few endpoints require an API key to be passed in the request header.  These keys are available to members through www.a15k.org.
+          Some endpoints require an API key to be passed in the request header.  There are two types of
+          API keys: API tokens and API IDs.  An API token is used for more restricted access.  Such tokens
+          should not be shared with end users.  API IDs are used for less restricted access and may be exposed
+          to clients (e.g. through use in browser-side code).  Both keys are available to members through
+          www.a15k.org.
       DESC
       key :termsOfService, 'http://a15k.org/terms/'
       contact do
@@ -30,25 +37,25 @@ class Docs::V0Controller < ApplicationController
     end
     security_definition :api_token do
       key :type, :apiKey
-      key :name, :'X-API-TOKEN'
+      key :name, :'Authorization'
       key :in, :header
     end
     security_definition :api_id do
       key :type, :apiKey
-      key :name, :'X-API-ID'
+      key :name, :'Authorization'
       key :in, :header
     end
     tag do
       key :name, 'Apps'
       key :description, 'Some API endpoints are limited to approved applications.  These endpoints ' \
-                        ' manage these applications and are restricted to system administrators.'
+                        'manage these applications and are restricted to system administrators.'
     end
     tag do
       key :name, 'Flags'
       key :description, ''
     end
     # key :host, URI.parse(Rails.application.secrets.base_url).host
-    key :basePath, '/api'
+    key :basePath, '/api/v0'
     key :consumes, [ACCEPT_HEADER]
     key :produces, ['application/json']
   end
