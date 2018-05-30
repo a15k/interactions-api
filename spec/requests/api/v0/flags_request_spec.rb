@@ -1,6 +1,27 @@
 require "rails_helper"
 
-RSpec.describe "Flags", :type => :request, accept: :v0 do
+RSpec.describe "Flags", :type => :request, api: :v0 do
+
+  context "create" do
+    it "gives forbidden for a bad API ID" do
+      set_bad_api_id
+      # post '/api/v0/flags'
+    end
+
+    it "gives unauthorized for a missing API ID" do
+
+    end
+
+    context "valid API ID" do
+      context "valid domain" do
+
+      end
+
+      context "invalid domain" do
+
+      end
+    end
+  end
 
   context "create" do
     context "valid api ID and domain" do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V0::FlagsController, type: :routing do
-  describe '/api/flags routing', accept: :v0 do
+  describe '/api/flags routing', api: :v0 do
     it 'routes to flags#create' do
       expect(post('/api/flags')).to route_to('api/v0/flags#create', format: :json)
     end

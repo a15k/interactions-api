@@ -1,6 +1,10 @@
 require "rails_helper"
 
-RSpec.describe "Apps", :type => :request, accept: :v0 do
+RSpec.describe "Apps", :type => :request, api: :v0 do
+
+  def a(path) # move to spec helper only included for accept: :v0 - change to api: :v0?
+    "/api"
+  end
 
   context "valid admin token" do
     before { set_admin_api_token }
