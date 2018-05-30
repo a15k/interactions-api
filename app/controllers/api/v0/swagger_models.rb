@@ -28,7 +28,7 @@ module Api::V0::SwaggerModels
       key :type, :string
       key :description, "The type of flag"
       key :enum, [
-        :unspecified, :type, :copyright_violation, :incorrect, :offensive
+        :unspecified, :typo, :copyright_violation, :incorrect, :offensive
       ]
     end
     property :explanation do

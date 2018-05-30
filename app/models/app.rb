@@ -78,6 +78,10 @@ class App
     end
   end
 
+  def url_is_whitelisted?(url)
+    whitelisted_domains.include?(url) # TODO get URL from domain
+  end
+
   protected
 
   attr_writer :id, :group_id, :api_id, :api_token, :name, :whitelisted_domains, :created_at

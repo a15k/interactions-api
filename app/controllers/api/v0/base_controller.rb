@@ -38,11 +38,11 @@ class Api::V0::BaseController < ApplicationController
 
   def authenticate_api_id_and_domain
     return head(:unauthorized) if api_id.nil?
-    return head(:forbidden) if !apps.does_api_id_domain_combo_exist?(api_id, origin)
+    return head(:forbidden) if !apps.does_api_id_origin_combo_exist?(api_id, origin)
   end
 
   def apps
-    Thread.current[:apps] ||= Apps.new
+    Thread.current[:apps] ||= CachedApps.new
   end
 
 end

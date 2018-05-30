@@ -20,12 +20,53 @@ module ApiV0Helpers
     headers['Authorization'] = "ID #{value}"
   end
 
+  def set_origin(value)
+    headers['origin'] = value
+  end
+
   def headers
     @headers ||= {}
   end
 
   def clear_headers
     @headers = nil
+  end
+
+  def api_post(*args, &block)
+    post(*prep_request_args(args), &block)
+    # post(*add_path_prefix(args), &block)
+  end
+
+  def api_get(*args, &block)
+    get(*prep_request_args(args), &block)
+  end
+
+  def api_put(*args, &block)
+    get(*prep_request_args(args), &block)
+  end
+
+  def api_delete(*args, &block)
+    get(*prep_request_args(args), &block)
+  end
+
+  def add_path_prefix(args)
+    args.dup.tap {|copy| copy[0] = "/api/v0/#{copy[0]}"}
+  end
+
+  def prep_request_args(args)
+    args.dup.tap do |copy|
+      copy[0] = "/api/v0/#{copy[0]}"
+
+      if copy.length == 1
+        copy.push({headers: headers})
+      else
+        if copy[1].is_a?(Hash)
+          copy[1][:headers] = headers.merge(copy[1][:headers])
+        else
+          raise "Don't know what to do with this case"
+        end
+      end
+    end
   end
 
   def self.more_rspec_config(config)

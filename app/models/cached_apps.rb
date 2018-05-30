@@ -13,6 +13,12 @@ class CachedApps
     @apps.by_api_token[api_token].present?
   end
 
+  def does_api_id_origin_combo_exist?(api_id, origin)
+    refresh_if_old!
+    app = @apps.by_api_id[api_id]
+    app.present? && app.url_is_whitelisted?(origin)
+  end
+
   def refresh_if_old!
     refresh! if @last_refreshed_at < REFRESH_PERIOD.ago
   end
