@@ -5,16 +5,14 @@ class App
   attr_reader :id, :group_id, :api_id, :api_token, :name, :whitelisted_domains, :created_at
 
   def self.create(group_id: nil, api_id: nil, api_token: nil, name: nil, whitelisted_domains: [])
-    app = App.new(id: SecureRandom.uuid,
-                  group_id: group_id,
-                  api_id: api_id || SecureRandom.base64(8),
-                  api_token: api_token || SecureRandom.base64(20),
-                  name: name,
-                  whitelisted_domains: whitelisted_domains,
-                  created_at: Time.current.utc)
-
-    app.save
-    app
+    App.new(id: SecureRandom.uuid,
+            group_id: group_id,
+            api_id: api_id || SecureRandom.base64(9),
+            api_token: api_token || SecureRandom.base64(21),
+            name: name,
+            whitelisted_domains: whitelisted_domains,
+            created_at: Time.current.utc)
+       .tap(&:save)
   end
 
   def save
@@ -46,6 +44,7 @@ class App
   end
 
   def update(name:, whitelisted_domains:)
+    whitelisted_domains = [whitelisted_domains].flatten
     app = App.find(id)
 
     app.name = name
@@ -79,7 +78,8 @@ class App
   end
 
   def url_is_whitelisted?(url)
-    whitelisted_domains.include?(url) # TODO get URL from domain
+    host = URI.parse(url).host
+    whitelisted_domains.any?{|wd| host.ends_with?(wd)}
   end
 
   protected

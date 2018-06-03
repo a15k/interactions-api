@@ -16,33 +16,28 @@ RSpec.describe "Flags", :type => :request, api: :v0 do
     end
 
     context "valid API ID" do
-      let(:app) do
-        App.create(group_id: params[:group_id]).tap do |app|
+      let(:an_app) do
+        App.create.tap do |app|
           app.update(name: "whatever", whitelisted_domains: "openstax.org")
         end
       end
 
+      before { debugger; set_api_id(an_app.api_id) }
+
       context "valid domain" do
-      #   set_origin("https://tutor.openstax.org")
-      #   api_post "flags", params: flag_json(content)
+        before { set_origin("https://tutor.openstax.org:80") }
 
+        it "records the flag" do
+          api_post "flags", params: flag_json(content_uid: "foo", user_uid: "bar")
 
-      # :'content_uid' => :'content_uid',
-      #   :'variant_id' => :'variant_id',
-      #   :'user_uid' => :'user_uid',
-      #   :'type' => :'type',
-      #   :'explanation' => :'explanation'
+          expect(response).to have_http_status(:created)
 
-
-        # expect(response).to have_http_status(:created)
-
-        # bound_response = Api::V0::Bindings::App.new(json_response)
-
-        # expect(bound_response.name).to be_blank
-        # expect(bound_response.id).to be_a String
-        # expect(bound_response.api_id.length).to be >= 8
-        # expect(bound_response.api_token.length).to be >= 20
-        # expect(bound_response.whitelisted_domains).to be_empty
+          bound_response = Api::V0::Bindings::Flag.new(json_response)
+          expect(bound_response.content_uid).to eq "foo"
+          expect(bound_response.user_uid).to eq "bar"
+          expect(bound_response.source_domain).to eq "tutor.openstax.org"
+          expect(bound_response.api_id).to eq app.id
+        end
       end
 
       context "invalid domain" do
@@ -51,8 +46,16 @@ RSpec.describe "Flags", :type => :request, api: :v0 do
     end
   end
 
-  # def flag_json(hash)
-  #   Api::V0::Bindings::Flag.new.build_from_hash(hash).to_body.to_json
-  # end
+  def flag_json(overrides = {})
+    hash = {
+      content_uid: SecureRandom.uuid,
+      variant_id: nil,
+      user_uid: SecureRandom.uuid,
+      type: "typo",
+      explanation: "missing period in sentence 4"
+    }.merge(overrides)
+
+    Api::V0::Bindings::Flag.new.build_from_hash(hash).to_body.to_json
+  end
 
 end

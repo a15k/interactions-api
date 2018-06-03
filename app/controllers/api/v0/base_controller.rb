@@ -15,11 +15,11 @@ class Api::V0::BaseController < ApplicationController
   end
 
   def api_token
-    request.headers['Authorization'].try(:match, /Token\W*(\w+)/).try(:[],1)
+    request.headers['Authorization'].try(:match, /Token\s*(\S+)/).try(:[],1)
   end
 
   def api_id
-    request.headers['Authorization'].try(:match, /ID\W*(\w+)/).try(:[],1)
+    request.headers['Authorization'].try(:match, /ID\s*(\S+)/).try(:[],1)
   end
 
   def origin

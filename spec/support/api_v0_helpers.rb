@@ -12,16 +12,54 @@ module ApiV0Helpers
     set_api_id("intentionally_bad_value")
   end
 
+  def controller_spec?
+    self.class.metadata[:type] == :controller
+  end
+
+  def request_spec?
+    self.class.metadata[:type] == :request
+  end
+
   def set_api_token(value)
-    headers['Authorization'] = "Token #{value}"
+    # hash = if controller_spec?
+    #   @request.headers
+    # elsif request_spec?
+    #   headers
+    # end
+
+    # hash['Authorization'] = "Token #{value}"
+    set_authorization_header("Token #{value}")
   end
 
   def set_api_id(value)
-    headers['Authorization'] = "ID #{value}"
+    set_authorization_header("ID #{value}")
+    # headers['Authorization'] = "ID #{value}"
+  end
+
+  def set_authorization_header(value)
+    # hash = if controller_spec?
+    #   @request.headers
+    # elsif request_spec?
+    #   headers
+    # end
+
+    # hash['Authorization'] = value
+    set_header('Authorization', value)
+  end
+
+  def set_header(key, value)
+    hash = if controller_spec?
+      @request.headers
+    elsif request_spec?
+      headers
+    end
+
+    hash[key] = value
   end
 
   def set_origin(value)
-    headers['origin'] = value
+    set_header('origin', value)
+    # headers['origin'] = value
   end
 
   def headers
@@ -34,7 +72,6 @@ module ApiV0Helpers
 
   def api_post(*args, &block)
     post(*prep_request_args(args), &block)
-    # post(*add_path_prefix(args), &block)
   end
 
   def api_get(*args, &block)
@@ -57,11 +94,12 @@ module ApiV0Helpers
     args.dup.tap do |copy|
       copy[0] = "/api/v0/#{copy[0]}"
 
+      # Add the headers on to the end or merge them with existing hash
       if copy.length == 1
         copy.push({headers: headers})
       else
         if copy[1].is_a?(Hash)
-          copy[1][:headers] = headers.merge(copy[1][:headers])
+          copy[1][:headers] = headers.merge(copy[1][:headers] || {})
         else
           raise "Don't know what to do with this case"
         end
