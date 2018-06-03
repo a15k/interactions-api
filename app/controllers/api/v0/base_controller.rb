@@ -42,7 +42,7 @@ class Api::V0::BaseController < ApplicationController
   end
 
   def apps
-    Thread.current[:apps] ||= CachedApps.new
+    CachedApps.instance
   end
 
 end
