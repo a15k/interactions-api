@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V0::AppsController, type: :routing do
-  describe '/api/apps routing', accept: :v0 do
+  describe '/api/apps routing', api: :v0 do
     it 'routes to apps#create' do
       expect(post('/api/apps')).to route_to('api/v0/apps#create', format: :json)
     end

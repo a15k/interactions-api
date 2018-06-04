@@ -1,0 +1,4 @@
+ignore:
+  - "app/controllers/api/v0/swaggger_models.rb"
+  - "app/controllers/api/v0/swaggger_responses.rb"
+  - "app/controllers/api/docs/v0_controller.rb"

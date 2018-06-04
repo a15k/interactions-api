@@ -20,7 +20,7 @@ require 'rspec/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f unless f.ends_with?("_spec.rb") }
 
 require 'database_cleaner'
 
@@ -58,51 +58,20 @@ RSpec.configure do |config|
     DatabaseCleaner.cleaning do
       example.run
     end
-    clear_headers
   end
 
-  # Inject the correct accept header in routing specs
-  config.before(:example, accept: :v0, type: :routing) do
-    expect(Rack::MockRequest).to receive(:env_for).and_wrap_original do |original_method, *args, &block|
-      original_method.call(*args, &block).tap { |hash| hash['HTTP_ACCEPT'] = accept_header }
-    end
+  config.before(:each) do
+    CachedApps.instance.mark_stale!
   end
 
-  config.before(:example, accept: :v0, type: :request) do
-    headers["ACCEPT"] = accept_header
-  end
-
-  # config.before(:example) do
-  #   App.all.each(&:delete)
-  # end
+  config.include ApiV0Helpers, api: :v0
+  ApiV0Helpers.more_rspec_config(config)
 
   config.include JsonHelpers, type: :request
 end
 
 def accept_header
   version = self.class.metadata[:accept]
-
   return if version.nil?
-
   "Docs::#{version.upcase}Controller::ACCEPT_HEADER".constantize
-end
-
-def set_admin_api_token
-  set_api_token(Rails.application.secrets.admin_api_token)
-end
-
-def set_bad_admin_api_token
-  set_api_token("intentionally_bad_value")
-end
-
-def set_api_token(value)
-  headers['Authorization'] = "Token #{value}"
-end
-
-def headers
-  @headers ||= {}
-end
-
-def clear_headers
-  @headers = nil
 end

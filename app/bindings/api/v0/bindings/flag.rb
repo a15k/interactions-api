@@ -1,7 +1,7 @@
 =begin
 #Assessment Network Interactions API
 
-#> Records interactions with content distributed by the Assessment Network  Requests to this API should include `application/vnd.interactions.a15k.org; version=0` in the `Accept` header.  While the API does support a default version, that version will change over time and therefore should not be used in production code!  A few endpoints require an API key to be passed in the request header.  These keys are available to members through www.a15k.org. 
+#> Records interactions with content distributed by the Assessment Network  Requests to this API should include `application/json` in the `Accept` header.  The desired API version is specified in the request URL, e.g. `...a15k.org/v0/flags`. While the API does support a default version, that version will change over time and therefore should not be used in production code!  Some endpoints require an API key to be passed in the request header.  There are two types of API keys: API tokens and API IDs.  An API token is used for more restricted access.  Such tokens should not be shared with end users.  API IDs are used for less restricted access and may be exposed to clients (e.g. through use in browser-side code).  Both keys are available to members through www.a15k.org. 
 
 OpenAPI spec version: 0.1.0
 
@@ -143,7 +143,7 @@ module Api::V0::Bindings
       return false if @content_uid.nil?
       return false if @user_uid.nil?
       return false if @type.nil?
-      type_validator = EnumAttributeValidator.new('String', ["unspecified", "type", "copyright_violation", "incorrect", "offensive"])
+      type_validator = EnumAttributeValidator.new('String', ["unspecified", "typo", "copyright_violation", "incorrect", "offensive"])
       return false unless type_validator.valid?(@type)
       return true
     end
@@ -151,7 +151,7 @@ module Api::V0::Bindings
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] type Object to be assigned
     def type=(type)
-      validator = EnumAttributeValidator.new('String', ["unspecified", "type", "copyright_violation", "incorrect", "offensive"])
+      validator = EnumAttributeValidator.new('String', ["unspecified", "typo", "copyright_violation", "incorrect", "offensive"])
       unless validator.valid?(type)
         fail ArgumentError, "invalid value for 'type', must be one of #{validator.allowable_values}."
       end

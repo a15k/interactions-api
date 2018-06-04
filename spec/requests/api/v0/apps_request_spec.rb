@@ -1,12 +1,12 @@
 require "rails_helper"
 
-RSpec.describe "Apps", :type => :request, accept: :v0 do
+RSpec.describe "Apps", :type => :request, api: :v0 do
 
   context "valid admin token" do
     before { set_admin_api_token }
 
     it "creates an app" do
-      post '/api/apps', headers: headers
+      api_post 'apps', headers: headers
       expect(response).to have_http_status(:created)
 
       bound_response = Api::V0::Bindings::App.new(json_response)
@@ -20,15 +20,15 @@ RSpec.describe "Apps", :type => :request, accept: :v0 do
 
     context "an app is not present" do
       it "gives a 404 for retrieval" do
-        get '/api/apps/42', headers: headers
+        api_get 'apps/42', headers: headers
       end
 
       it "gives a 404 for update" do
-        put '/api/apps/42', headers: headers
+        api_put 'apps/42', headers: headers
       end
 
       it "gives a 404 for delete" do
-        delete '/api/apps/42', headers: headers
+        api_delete 'apps/42', headers: headers
       end
     end
 
@@ -51,59 +51,59 @@ RSpec.describe "Apps", :type => :request, accept: :v0 do
     before { set_bad_admin_api_token }
 
     it "cannot create an app" do
-      post '/api/apps', headers: headers
+      api_post 'apps', headers: headers
       expect(response).to have_http_status(:forbidden)
     end
 
     it "cannot return an app" do
-      get '/api/apps/42', headers: headers
+      api_get 'apps/42', headers: headers
       expect(response).to have_http_status(:forbidden)
     end
 
     it "cannot list apps" do
-      get '/api/apps', headers: headers
+      api_get 'apps', headers: headers
       expect(response).to have_http_status(:forbidden)
     end
 
     it "cannot update an app" do
-      put '/api/apps/42', headers: headers
+      api_put 'apps/42', headers: headers
       expect(response).to have_http_status(:forbidden)
     end
 
     it "cannot destroy an app" do
-      delete '/api/apps/42', headers: headers
+      api_delete 'apps/42', headers: headers
       expect(response).to have_http_status(:forbidden)
     end
   end
 
   context "missing admin token" do
     it "cannot create an app" do
-      post '/api/apps', headers: headers
+      api_post 'apps', headers: headers
       expect(response).to have_http_status(:unauthorized)
     end
 
     it "cannot create an app" do
-      post '/api/apps', headers: headers
+      api_post 'apps', headers: headers
       expect(response).to have_http_status(:unauthorized)
     end
 
     it "cannot return an app" do
-      get '/api/apps/42', headers: headers
+      api_get 'apps/42', headers: headers
       expect(response).to have_http_status(:unauthorized)
     end
 
     it "cannot list apps" do
-      get '/api/apps', headers: headers
+      api_get 'apps', headers: headers
       expect(response).to have_http_status(:unauthorized)
     end
 
     it "cannot update an app" do
-      put '/api/apps/42', headers: headers
+      api_put 'apps/42', headers: headers
       expect(response).to have_http_status(:unauthorized)
     end
 
     it "cannot destroy an app" do
-      delete '/api/apps/42', headers: headers
+      api_delete 'apps/42', headers: headers
       expect(response).to have_http_status(:unauthorized)
     end
   end
