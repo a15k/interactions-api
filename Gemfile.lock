@@ -59,8 +59,6 @@ GEM
       aws-sdk-core (~> 3)
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.2)
-    bootsnap (1.3.0)
-      msgpack (~> 1.0)
     builder (3.2.3)
     byebug (10.0.2)
     codecov (0.1.10)
@@ -99,7 +97,6 @@ GEM
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
-    msgpack (1.2.4)
     multi_json (1.13.1)
     nio4r (2.3.1)
     nokogiri (1.8.2)
@@ -114,8 +111,6 @@ GEM
     puma (3.11.4)
     rack (2.0.5)
     rack-cors (1.0.2)
-    rack-proxy (0.6.4)
-      rack
     rack-test (1.0.0)
       rack (>= 1.0, < 3)
     rails (5.2.0)
@@ -196,10 +191,6 @@ GEM
       activesupport (>= 3)
       railties (>= 3)
       yard (~> 0.9.11)
-    webpacker (3.5.3)
-      activesupport (>= 4.2)
-      rack-proxy (>= 0.6.1)
-      railties (>= 4.2)
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
@@ -211,7 +202,6 @@ PLATFORMS
 DEPENDENCIES
   avro_turf
   aws-sdk-ssm
-  bootsnap
   byebug
   codecov
   database_cleaner
@@ -233,7 +223,6 @@ DEPENDENCIES
   swagger-blocks
   timecop
   versionist
-  webpacker
 
 BUNDLED WITH
    1.16.1
