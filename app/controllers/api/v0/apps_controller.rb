@@ -115,7 +115,7 @@ class Api::V0::AppsController < Api::V0::BaseController
     render json: apps, status: :ok
   end
 
-  swagger_path '/apps' do
+  swagger_path '/apps/{id}' do
     operation :put do
       key :summary, 'Update an app'
       key :description, 'Update an app with the provided values.'
@@ -155,7 +155,9 @@ class Api::V0::AppsController < Api::V0::BaseController
   end
 
   def update
-    binding, error = bind(@app.to_hash.merge(params[:app]), Api::V0::Bindings::App)
+    # rails doesn't parse for us since we're not using json content type
+    attrs = JSON.parse(request.body.read)
+    binding, error = bind(@app.as_json.merge(attrs), Api::V0::Bindings::App)
 
     render(json: error, status: error.status_code) and return if error
 
