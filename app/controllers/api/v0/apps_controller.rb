@@ -138,7 +138,7 @@ class Api::V0::AppsController < Api::V0::BaseController
         key :in, :body
         key :description, 'The app data'
         schema do
-          key :'$ref', :App
+          key :'$ref', :AppUpdate
         end
       end
       response 200 do

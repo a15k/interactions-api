@@ -53,17 +53,18 @@ module Api::V0::SwaggerModels
     end
   end
 
+  swagger_schema :AppUpdate
   swagger_schema :App do
     key :required, [:id, :name, :api_id, :api_token]
+  end
+
+  add_properties(:App) do
     property :id do
       key :type, :string
       key :readOnly, true
       key :description, "Internally-set ID"
     end
-    property :name do
-      key :type, :string
-      key :description, "Custom name set by app owner to help them manage apps"
-    end
+
     property :api_id do
       key :type, :string
       key :readOnly, true
@@ -78,6 +79,13 @@ module Api::V0::SwaggerModels
       key :type, :string
       key :readOnly, true
       key :description, "Used to group apps"
+    end
+  end
+
+  add_properties(:AppUpdate, :App) do
+    property :name do
+      key :type, :string
+      key :description, "Custom name set by app owner to help them manage apps"
     end
     property :whitelisted_domains do
       key :type, :array
