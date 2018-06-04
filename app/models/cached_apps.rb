@@ -33,7 +33,7 @@ class CachedApps
   end
 
   def refresh_if_needed!
-    refresh! if @force_refresh || @last_refreshed_at < REFRESH_PERIOD.ago
+    refresh! if @marked_stale || @last_refreshed_at < REFRESH_PERIOD.ago
   end
 
   def refresh!
@@ -45,12 +45,20 @@ class CachedApps
       @apps.by_api_id[app.api_id] = app
     end
 
-    @force_refresh = false
+    @marked_stale = false
     @last_refreshed_at = Time.current
   end
 
-  def needs_refresh!
-    @force_refresh = true
+  def mark_stale!
+    @marked_stale = true
+  end
+
+  def api_ids
+    @apps.by_api_id.keys
+  end
+
+  def api_tokens
+    @apps.by_api_token.keys
   end
 
 end

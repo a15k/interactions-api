@@ -21,7 +21,7 @@ class Api::V0::FlagsController < Api::V0::BaseController
         key :description, 'The flag data'
         key :required, true
         schema do
-          key :'$ref', :Flag
+          key :'$ref', :FlagNew
         end
       end
       response 200 do
@@ -37,12 +37,12 @@ class Api::V0::FlagsController < Api::V0::BaseController
   end
 
   def create
-    binding, error = bind(params[:flag], Api::V0::Bindings::Flag)
+    binding, error = bind(params.require(:flag), Api::V0::Bindings::FlagNew)
 
     render(json: error, status: error.status_code) and return if error
 
     flag = Flag.create(app_api_id: api_id,
-                       source_domain: origin,
+                       source_domain: origin_host,
                        content_uid: binding.content_uid,
                        variant_id: binding.variant_id,
                        user_uid: binding.user_uid,

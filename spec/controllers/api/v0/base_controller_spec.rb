@@ -15,7 +15,7 @@ RSpec.describe Api::V0::BaseController, type: :controller, api: :v0 do
     def test_authenticate_api_id_and_domain; head :ok; end
 
     def clear_app_cache
-      apps.needs_refresh!
+      apps.mark_stale!
     end
   end
 
@@ -101,7 +101,7 @@ RSpec.describe Api::V0::BaseController, type: :controller, api: :v0 do
 
     it "gives success for good id and good domain combo" do
       set_api_id(an_app.api_id)
-      set_origin("http://tutor.openstax.org")
+      set_origin("http://tutor.openstax.org:80")
       get :test_authenticate_api_id_and_domain
       expect(response).to have_http_status(:ok)
     end

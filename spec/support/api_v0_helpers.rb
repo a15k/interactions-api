@@ -21,29 +21,14 @@ module ApiV0Helpers
   end
 
   def set_api_token(value)
-    # hash = if controller_spec?
-    #   @request.headers
-    # elsif request_spec?
-    #   headers
-    # end
-
-    # hash['Authorization'] = "Token #{value}"
     set_authorization_header("Token #{value}")
   end
 
   def set_api_id(value)
     set_authorization_header("ID #{value}")
-    # headers['Authorization'] = "ID #{value}"
   end
 
   def set_authorization_header(value)
-    # hash = if controller_spec?
-    #   @request.headers
-    # elsif request_spec?
-    #   headers
-    # end
-
-    # hash['Authorization'] = value
     set_header('Authorization', value)
   end
 
@@ -59,7 +44,6 @@ module ApiV0Helpers
 
   def set_origin(value)
     set_header('origin', value)
-    # headers['origin'] = value
   end
 
   def headers
@@ -95,6 +79,8 @@ module ApiV0Helpers
       copy[0] = "/api/v0/#{copy[0]}"
 
       # Add the headers on to the end or merge them with existing hash
+      headers['CONTENT_TYPE'] = "application/json"
+
       if copy.length == 1
         copy.push({headers: headers})
       else

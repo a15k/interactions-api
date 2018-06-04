@@ -22,21 +22,24 @@ RSpec.describe "Flags", :type => :request, api: :v0 do
         end
       end
 
-      before { debugger; set_api_id(an_app.api_id) }
+      before { set_api_id(an_app.api_id) }
 
       context "valid domain" do
         before { set_origin("https://tutor.openstax.org:80") }
 
         it "records the flag" do
-          api_post "flags", params: flag_json(content_uid: "foo", user_uid: "bar")
+          api_post "flags", params: flag_new_json(content_uid: "foo", user_uid: "bar")
 
           expect(response).to have_http_status(:created)
 
           bound_response = Api::V0::Bindings::Flag.new(json_response)
           expect(bound_response.content_uid).to eq "foo"
           expect(bound_response.user_uid).to eq "bar"
-          expect(bound_response.source_domain).to eq "tutor.openstax.org"
-          expect(bound_response.api_id).to eq app.id
+
+          created_flag = Flag.find(bound_response.id)
+
+          expect(created_flag.source_domain).to eq "tutor.openstax.org"
+          expect(created_flag.app_id).to eq an_app.id
         end
       end
 
@@ -46,7 +49,7 @@ RSpec.describe "Flags", :type => :request, api: :v0 do
     end
   end
 
-  def flag_json(overrides = {})
+  def flag_new_json(overrides = {})
     hash = {
       content_uid: SecureRandom.uuid,
       variant_id: nil,
@@ -55,7 +58,7 @@ RSpec.describe "Flags", :type => :request, api: :v0 do
       explanation: "missing period in sentence 4"
     }.merge(overrides)
 
-    Api::V0::Bindings::Flag.new.build_from_hash(hash).to_body.to_json
+    Api::V0::Bindings::FlagNew.new.build_from_hash(hash).to_body.to_json
   end
 
 end

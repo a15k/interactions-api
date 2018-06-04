@@ -60,6 +60,10 @@ RSpec.configure do |config|
     end
   end
 
+  config.before(:each) do
+    CachedApps.instance.mark_stale!
+  end
+
   config.include ApiV0Helpers, api: :v0
   ApiV0Helpers.more_rspec_config(config)
 
@@ -71,5 +75,3 @@ def accept_header
   return if version.nil?
   "Docs::#{version.upcase}Controller::ACCEPT_HEADER".constantize
 end
-
-

@@ -1,12 +1,28 @@
 module Api::V0::SwaggerModels
   include Swagger::Blocks
+  include SwaggerBlocksExtensions
+
+  swagger_schema :FlagNew do
+    key :required, [:content_uid, :user_uid, :type]
+  end
 
   swagger_schema :Flag do
-    key :required, [:id, :app_uid, :content_uid, :user_uid, :type]
+    key :required, [:id, :content_uid, :user_uid, :type]
+  end
+
+  add_properties(:Flag) do
     property :id do
       key :type, :string
       key :readOnly, true
       key :description, "Internally-set UUID.  Used to retrieve and delete flags, so treat it as somewhat secret."
+    end
+  end
+
+  add_properties(:FlagNew, :Flag) do
+    property :content_uid do
+      key :type, :string
+      key :readOnly, true
+      key :description, "The a15k ID of the content being flagged."
     end
     property :content_uid do
       key :type, :string
