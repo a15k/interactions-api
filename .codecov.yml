@@ -1,0 +1,5 @@
+coverage:
+  ignore:
+    - "app/controllers/api/v0/swaggger_models.*"
+    - "app/controllers/api/v0/swaggger_responses.*"
+    - "app/controllers/api/docs/v0_controller.*"
