@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'fileutils'
+require_relative '../swagger_codegen'
 
 desc <<-DESC.strip_heredoc
   Generate the Ruby API model bindings in the app/bindings directory.  swagger-codegen
