@@ -1,4 +1,4 @@
-# A15k::Interactions::Error
+# A15kInteractions::Error
 
 ## Properties
 Name | Type | Description | Notes

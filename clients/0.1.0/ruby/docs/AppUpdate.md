@@ -1,4 +1,4 @@
-# A15k::Interactions::AppUpdate
+# A15kInteractions::AppUpdate
 
 ## Properties
 Name | Type | Description | Notes

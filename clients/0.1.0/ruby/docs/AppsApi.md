@@ -1,4 +1,4 @@
-# A15k::Interactions::AppsApi
+# A15kInteractions::AppsApi
 
 All URIs are relative to *https://localhost/api/v0*
 
@@ -23,14 +23,14 @@ Create a new app with some values pre-populated; does not take initial values
 # load the gem
 require 'a15k_interactions_api'
 # setup authorization
-A15k::Interactions.configure do |config|
+A15kInteractions.configure do |config|
   # Configure API key authorization: api_token
   config.api_key['Authorization'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['Authorization'] = 'Bearer'
 end
 
-api_instance = A15k::Interactions::AppsApi.new
+api_instance = A15kInteractions::AppsApi.new
 
 opts = { 
   group_id: "group_id_example" # String | ID under which the new app should be grouped (e.g. the UUID) of the app owner.  Can be used to later retrieve all apps in the same group at once.
@@ -40,7 +40,7 @@ begin
   #Create a new app
   result = api_instance.create_app(opts)
   p result
-rescue A15k::Interactions::ApiError => e
+rescue A15kInteractions::ApiError => e
   puts "Exception when calling AppsApi->create_app: #{e}"
 end
 ```
@@ -78,14 +78,14 @@ Delete the specified app
 # load the gem
 require 'a15k_interactions_api'
 # setup authorization
-A15k::Interactions.configure do |config|
+A15kInteractions.configure do |config|
   # Configure API key authorization: api_token
   config.api_key['Authorization'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['Authorization'] = 'Bearer'
 end
 
-api_instance = A15k::Interactions::AppsApi.new
+api_instance = A15kInteractions::AppsApi.new
 
 id = "id_example" # String | ID of the app to delete
 
@@ -94,7 +94,7 @@ begin
   #Delete an app
   result = api_instance.delete_app(id)
   p result
-rescue A15k::Interactions::ApiError => e
+rescue A15kInteractions::ApiError => e
   puts "Exception when calling AppsApi->delete_app: #{e}"
 end
 ```
@@ -132,14 +132,14 @@ Returns all information about a specific app
 # load the gem
 require 'a15k_interactions_api'
 # setup authorization
-A15k::Interactions.configure do |config|
+A15kInteractions.configure do |config|
   # Configure API key authorization: api_token
   config.api_key['Authorization'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['Authorization'] = 'Bearer'
 end
 
-api_instance = A15k::Interactions::AppsApi.new
+api_instance = A15kInteractions::AppsApi.new
 
 id = "id_example" # String | ID of the app
 
@@ -148,7 +148,7 @@ begin
   #Get a specific app
   result = api_instance.get_app(id)
   p result
-rescue A15k::Interactions::ApiError => e
+rescue A15kInteractions::ApiError => e
   puts "Exception when calling AppsApi->get_app: #{e}"
 end
 ```
@@ -186,14 +186,14 @@ Get all apps matching a query.
 # load the gem
 require 'a15k_interactions_api'
 # setup authorization
-A15k::Interactions.configure do |config|
+A15kInteractions.configure do |config|
   # Configure API key authorization: api_token
   config.api_key['Authorization'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['Authorization'] = 'Bearer'
 end
 
-api_instance = A15k::Interactions::AppsApi.new
+api_instance = A15kInteractions::AppsApi.new
 
 opts = { 
   group_id: "group_id_example" # String | ID under which apps are grouped (e.g. the UUID) of the app owner.If not provided, returns all apps.
@@ -203,7 +203,7 @@ begin
   #Get all apps matching a query
   result = api_instance.get_apps(opts)
   p result
-rescue A15k::Interactions::ApiError => e
+rescue A15kInteractions::ApiError => e
   puts "Exception when calling AppsApi->get_apps: #{e}"
 end
 ```
@@ -241,26 +241,26 @@ Update an app with the provided values.
 # load the gem
 require 'a15k_interactions_api'
 # setup authorization
-A15k::Interactions.configure do |config|
+A15kInteractions.configure do |config|
   # Configure API key authorization: api_token
   config.api_key['Authorization'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['Authorization'] = 'Bearer'
 end
 
-api_instance = A15k::Interactions::AppsApi.new
+api_instance = A15kInteractions::AppsApi.new
 
 id = "id_example" # String | ID of the app
 
 opts = { 
-  app: A15k::Interactions::AppUpdate.new # AppUpdate | The app data
+  app: A15kInteractions::AppUpdate.new # AppUpdate | The app data
 }
 
 begin
   #Update an app
   result = api_instance.update_app(id, opts)
   p result
-rescue A15k::Interactions::ApiError => e
+rescue A15kInteractions::ApiError => e
   puts "Exception when calling AppsApi->update_app: #{e}"
 end
 ```
