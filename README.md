@@ -5,7 +5,14 @@
 
 ## Autogenerating bindings
 
-`rake generate_model_bindings[X]` will create version X request and response model bindings in `app/bindings/api/vX`.
+`rake generate_model_bindings[X]` will create version X request and response model bindings in `app/bindings/api/vX`.  These are for
+use inside the interactions API code.
+
+## Autogenerating clients
+
+Swagger-codegen generated clients live inside this baseline.  There is a rake task to generate the client code.  Call
+`rake generate_client[X,lang]` to generate the major version X client for the given language, e.g. `rake generate_client[0,ruby]`
+will generate the Ruby client for the latest version 0 API.
 
 # TODOs
 
