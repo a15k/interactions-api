@@ -13,6 +13,10 @@ task :generate_model_bindings, [:api_major_version] => :environment do |tt,args|
   SwaggerCodegen.execute(api_major_version) do |json|
     api_exact_version = json[:info][:version]
     output_dir = "#{Rails.application.root}/tmp/ruby-models/#{api_exact_version}"
+
+    # Clean out anything that use to be there so old bindings do come back to life
+    FileUtils.rm_rf(output_dir)
+
     {
       cmd_options: %w[-l ruby -D models],
       output_dir: output_dir,

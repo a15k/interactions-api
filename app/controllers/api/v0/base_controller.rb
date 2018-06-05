@@ -4,8 +4,29 @@ class Api::V0::BaseController < ApplicationController
 
   def bind(data, bindings_class)
     begin
-      data_hash = data.permit(bindings_class.attribute_map.keys).to_h
+      # Some swagger types are simple scalars and some are arrays or other
+      # For arrays, when we call permit, we need to call it with `:key_name => []`
+      # Use the `swagger_types` data in the bindings class to find those cases
+      # and generate the correct arguments to pass to `permit`.
+
+      data_hash = data.permit(bindings_class.swagger_types.map { |k,v|
+        v.to_s.starts_with?("Array") ? {k => []} : k
+      }).to_h
+
       binding = bindings_class.new(data_hash)
+
+      # do some simple extra error checking
+      keys_in_binding = binding.to_body.keys.map(&:to_s)
+      keys_in_data = data.keys.map(&:to_s)
+
+      unused_keys = keys_in_data - keys_in_binding
+      bad_keys = unused_keys & bindings_class.swagger_types.keys.map(&:to_s)
+      unrequested_keys = unused_keys - bad_keys
+
+      if bad_keys.any?
+        # NB: Some other things can generate ArgumentError besides this
+        raise ArgumentError, "Some keys caused errors: #{bad_keys}"
+      end
     rescue ArgumentError => ee
       return [nil, Api::V0::Bindings::Error.new(status_code: 422, messages: [ee.message])]
     end

@@ -67,7 +67,7 @@ RSpec.configure do |config|
   config.include ApiV0Helpers, api: :v0
   ApiV0Helpers.more_rspec_config(config)
 
-  config.include JsonHelpers, type: :request
+  config.include ResponseHelpers, type: :request
 end
 
 def accept_header

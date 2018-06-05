@@ -43,14 +43,11 @@ class App
     ids.count == 1 ? apps.first : apps
   end
 
-  def update(name:, whitelisted_domains:)
-    whitelisted_domains = [whitelisted_domains].flatten
-    app = App.find(id)
-
-    app.name = name
-    app.whitelisted_domains = whitelisted_domains
-
-    app.save
+  def update(name: nil, whitelisted_domains: nil)
+    # Can update only one or neither
+    self.name = name if name.present?
+    self.whitelisted_domains = [whitelisted_domains].flatten if whitelisted_domains.present?
+    save
   end
 
   def destroy
