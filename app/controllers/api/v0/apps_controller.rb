@@ -115,7 +115,7 @@ class Api::V0::AppsController < Api::V0::BaseController
     render json: apps, status: :ok
   end
 
-  swagger_path '/apps' do
+  swagger_path '/apps/{id}' do
     operation :put do
       key :summary, 'Update an app'
       key :description, 'Update an app with the provided values.'
@@ -138,7 +138,7 @@ class Api::V0::AppsController < Api::V0::BaseController
         key :in, :body
         key :description, 'The app data'
         schema do
-          key :'$ref', :App
+          key :'$ref', :AppUpdate
         end
       end
       response 200 do
@@ -155,7 +155,7 @@ class Api::V0::AppsController < Api::V0::BaseController
   end
 
   def update
-    binding, error = bind(@app.to_hash.merge(params[:app]), Api::V0::Bindings::App)
+    binding, error = bind(params[:app], Api::V0::Bindings::AppUpdate)
 
     render(json: error, status: error.status_code) and return if error
 
