@@ -38,7 +38,9 @@ class Flag
   end
 
   def destroy
-    raise "NYI"
+    redis.multi do
+      redis.del(redis_key)
+    end
   end
 
   def attributes
@@ -66,10 +68,14 @@ class Flag
   def save
     # TODO validations?
     redis.multi do
-      redis.set("flags:id:#{id}", to_json)
+      redis.set(redis_key, to_json)
       # TODO also index ID by other fields as needed
     end
     true
+  end
+
+  def redis_key
+    "flags:id:#{id}"
   end
 
 end

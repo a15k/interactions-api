@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     ) do
 
       resources :apps, only: [:index, :create, :show, :update, :destroy]
-      resources :flags, only: [:create, :show, :destroy]
+      resources :flags, only: [:create, :show, :update, :destroy]
       resources :ratings, only: [:create, :show, :destroy]
       resources :presentations, only: [:create]
       resources :heartbeats, only: [:create]

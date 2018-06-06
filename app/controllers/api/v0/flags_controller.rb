@@ -30,8 +30,8 @@ class Api::V0::FlagsController < Api::V0::BaseController
           key :'$ref', :Flag
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorId
+      extend Api::V0::SwaggerResponses::ForbiddenErrorId
       extend Api::V0::SwaggerResponses::ServerError
     end
   end
@@ -76,15 +76,15 @@ class Api::V0::FlagsController < Api::V0::BaseController
           key :'$ref', :Flag
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorId
+      extend Api::V0::SwaggerResponses::ForbiddenErrorId
       extend Api::V0::SwaggerResponses::NotFoundError
       extend Api::V0::SwaggerResponses::ServerError
     end
   end
 
   def show
-    render json: to_json(@flag), status: :created
+    render json: to_json(@flag), status: :ok
   end
 
   swagger_path '/flags' do
@@ -119,8 +119,8 @@ class Api::V0::FlagsController < Api::V0::BaseController
           key :'$ref', :Flag
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorId
+      extend Api::V0::SwaggerResponses::ForbiddenErrorId
       extend Api::V0::SwaggerResponses::NotFoundError
       extend Api::V0::SwaggerResponses::ServerError
     end
@@ -160,8 +160,8 @@ class Api::V0::FlagsController < Api::V0::BaseController
           key :'$ref', :Flag
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorId
+      extend Api::V0::SwaggerResponses::ForbiddenErrorId
       extend Api::V0::SwaggerResponses::NotFoundError
       extend Api::V0::SwaggerResponses::ServerError
     end
@@ -169,7 +169,7 @@ class Api::V0::FlagsController < Api::V0::BaseController
 
   def destroy
     @flag.destroy
-    render json: to_json(@flag), status: :created
+    render json: to_json(@flag), status: :ok
   end
 
   protected

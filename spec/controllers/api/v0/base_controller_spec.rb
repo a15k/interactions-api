@@ -105,6 +105,13 @@ RSpec.describe Api::V0::BaseController, type: :controller, api: :v0 do
       get :test_authenticate_api_id_and_domain
       expect(response).to have_http_status(:ok)
     end
+
+    it "gives unauthorized for missing domain" do
+      set_api_id(an_app.api_id)
+      # do not set origin
+      get :test_authenticate_api_id_and_domain
+      expect(response).to have_http_status(:unauthorized)
+    end
   end
 
   it "correctly reads a bunch of API IDs" do
