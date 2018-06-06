@@ -1,4 +1,4 @@
-# A15k::Interactions::App
+# A15kInteractions::App
 
 ## Properties
 Name | Type | Description | Notes

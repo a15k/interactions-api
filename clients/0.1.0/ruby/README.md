@@ -1,6 +1,6 @@
 # a15k_interactions_api
 
-A15k::Interactions - the Ruby gem for the Assessment Network Interactions API
+A15kInteractions - the Ruby gem for the Assessment Network Interactions API
 
 > Records interactions with content distributed by the Assessment Network  Requests to this API should include `application/json` in the `Accept` header.  The desired API version is specified in the request URL, e.g. `...a15k.org/v0/flags`. While the API does support a default version, that version will change over time and therefore should not be used in production code!  Some endpoints require an API key to be passed in the request header.  There are two types of API keys: API tokens and API IDs.  An API token is used for more restricted access.  Such tokens should not be shared with end users.  API IDs are used for less restricted access and may be exposed to clients (e.g. through use in browser-side code).  Both keys are available to members through www.a15k.org. 
 
@@ -55,14 +55,14 @@ Please follow the [installation](#installation) procedure and then run the follo
 require 'a15k_interactions_api'
 
 # Setup authorization
-A15k::Interactions.configure do |config|
+A15kInteractions.configure do |config|
   # Configure API key authorization: api_token
   config.api_key['Authorization'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['Authorization'] = 'Bearer'
 end
 
-api_instance = A15k::Interactions::AppsApi.new
+api_instance = A15kInteractions::AppsApi.new
 
 opts = { 
   group_id: "group_id_example" # String | ID under which the new app should be grouped (e.g. the UUID) of the app owner.  Can be used to later retrieve all apps in the same group at once.
@@ -72,7 +72,7 @@ begin
   #Create a new app
   result = api_instance.create_app(opts)
   p result
-rescue A15k::Interactions::ApiError => e
+rescue A15kInteractions::ApiError => e
   puts "Exception when calling AppsApi->create_app: #{e}"
 end
 
@@ -84,24 +84,24 @@ All URIs are relative to *https://localhost/api/v0*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*A15k::Interactions::AppsApi* | [**create_app**](docs/AppsApi.md#create_app) | **POST** /apps | Create a new app
-*A15k::Interactions::AppsApi* | [**delete_app**](docs/AppsApi.md#delete_app) | **DELETE** /apps/{id} | Delete an app
-*A15k::Interactions::AppsApi* | [**get_app**](docs/AppsApi.md#get_app) | **GET** /apps/{id} | Get a specific app
-*A15k::Interactions::AppsApi* | [**get_apps**](docs/AppsApi.md#get_apps) | **GET** /apps | Get all apps matching a query
-*A15k::Interactions::AppsApi* | [**update_app**](docs/AppsApi.md#update_app) | **PUT** /apps/{id} | Update an app
-*A15k::Interactions::FlagsApi* | [**create_flag**](docs/FlagsApi.md#create_flag) | **POST** /flags | Flag some content
-*A15k::Interactions::FlagsApi* | [**delete_flag**](docs/FlagsApi.md#delete_flag) | **DELETE** /flags/{id} | Delete a flag
-*A15k::Interactions::FlagsApi* | [**get_flag**](docs/FlagsApi.md#get_flag) | **GET** /flags/{id} | Retrieve a flag
-*A15k::Interactions::FlagsApi* | [**update_flag**](docs/FlagsApi.md#update_flag) | **PUT** /flags | Update a flag
+*A15kInteractions::AppsApi* | [**create_app**](docs/AppsApi.md#create_app) | **POST** /apps | Create a new app
+*A15kInteractions::AppsApi* | [**delete_app**](docs/AppsApi.md#delete_app) | **DELETE** /apps/{id} | Delete an app
+*A15kInteractions::AppsApi* | [**get_app**](docs/AppsApi.md#get_app) | **GET** /apps/{id} | Get a specific app
+*A15kInteractions::AppsApi* | [**get_apps**](docs/AppsApi.md#get_apps) | **GET** /apps | Get all apps matching a query
+*A15kInteractions::AppsApi* | [**update_app**](docs/AppsApi.md#update_app) | **PUT** /apps/{id} | Update an app
+*A15kInteractions::FlagsApi* | [**create_flag**](docs/FlagsApi.md#create_flag) | **POST** /flags | Flag some content
+*A15kInteractions::FlagsApi* | [**delete_flag**](docs/FlagsApi.md#delete_flag) | **DELETE** /flags/{id} | Delete a flag
+*A15kInteractions::FlagsApi* | [**get_flag**](docs/FlagsApi.md#get_flag) | **GET** /flags/{id} | Retrieve a flag
+*A15kInteractions::FlagsApi* | [**update_flag**](docs/FlagsApi.md#update_flag) | **PUT** /flags | Update a flag
 
 
 ## Documentation for Models
 
- - [A15k::Interactions::App](docs/App.md)
- - [A15k::Interactions::AppUpdate](docs/AppUpdate.md)
- - [A15k::Interactions::Error](docs/Error.md)
- - [A15k::Interactions::Flag](docs/Flag.md)
- - [A15k::Interactions::FlagNew](docs/FlagNew.md)
+ - [A15kInteractions::App](docs/App.md)
+ - [A15kInteractions::AppUpdate](docs/AppUpdate.md)
+ - [A15kInteractions::Error](docs/Error.md)
+ - [A15kInteractions::Flag](docs/Flag.md)
+ - [A15kInteractions::FlagNew](docs/FlagNew.md)
 
 
 ## Documentation for Authorization

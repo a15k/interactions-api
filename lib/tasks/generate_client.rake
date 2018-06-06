@@ -40,7 +40,7 @@ def ruby_config(api_exact_version:)
     gemName: 'a15k_interactions_api',
     gemHomepage: 'https://a15k.org/clients/ruby',
     gemRequiredRubyVersion: '>= 2.4',
-    moduleName: "A15k::Interactions",
+    moduleName: "A15kInteractions",
     gemVersion: api_exact_version,
   }
 end

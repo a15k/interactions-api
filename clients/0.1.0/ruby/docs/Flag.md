@@ -1,4 +1,4 @@
-# A15k::Interactions::Flag
+# A15kInteractions::Flag
 
 ## Properties
 Name | Type | Description | Notes

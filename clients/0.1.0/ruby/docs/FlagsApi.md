@@ -1,4 +1,4 @@
-# A15k::Interactions::FlagsApi
+# A15kInteractions::FlagsApi
 
 All URIs are relative to *https://localhost/api/v0*
 
@@ -22,23 +22,23 @@ Adds a flag to some content for some user in some app.
 # load the gem
 require 'a15k_interactions_api'
 # setup authorization
-A15k::Interactions.configure do |config|
+A15kInteractions.configure do |config|
   # Configure API key authorization: api_id
   config.api_key['Authorization'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['Authorization'] = 'Bearer'
 end
 
-api_instance = A15k::Interactions::FlagsApi.new
+api_instance = A15kInteractions::FlagsApi.new
 
-flag = A15k::Interactions::FlagNew.new # FlagNew | The flag data
+flag = A15kInteractions::FlagNew.new # FlagNew | The flag data
 
 
 begin
   #Flag some content
   result = api_instance.create_flag(flag)
   p result
-rescue A15k::Interactions::ApiError => e
+rescue A15kInteractions::ApiError => e
   puts "Exception when calling FlagsApi->create_flag: #{e}"
 end
 ```
@@ -76,14 +76,14 @@ Delete a flag.  Anyone with the flag ID (very hard to guess) can delete it.
 # load the gem
 require 'a15k_interactions_api'
 # setup authorization
-A15k::Interactions.configure do |config|
+A15kInteractions.configure do |config|
   # Configure API key authorization: api_id
   config.api_key['Authorization'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['Authorization'] = 'Bearer'
 end
 
-api_instance = A15k::Interactions::FlagsApi.new
+api_instance = A15kInteractions::FlagsApi.new
 
 id = "id_example" # String | ID of the flag to delete
 
@@ -92,7 +92,7 @@ begin
   #Delete a flag
   result = api_instance.delete_flag(id)
   p result
-rescue A15k::Interactions::ApiError => e
+rescue A15kInteractions::ApiError => e
   puts "Exception when calling FlagsApi->delete_flag: #{e}"
 end
 ```
@@ -130,14 +130,14 @@ Retrieve a flag.  Anyone with the flag ID (very hard to guess) can retrieve it.
 # load the gem
 require 'a15k_interactions_api'
 # setup authorization
-A15k::Interactions.configure do |config|
+A15kInteractions.configure do |config|
   # Configure API key authorization: api_id
   config.api_key['Authorization'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['Authorization'] = 'Bearer'
 end
 
-api_instance = A15k::Interactions::FlagsApi.new
+api_instance = A15kInteractions::FlagsApi.new
 
 id = "id_example" # String | ID of the flag to retrieve
 
@@ -146,7 +146,7 @@ begin
   #Retrieve a flag
   result = api_instance.get_flag(id)
   p result
-rescue A15k::Interactions::ApiError => e
+rescue A15kInteractions::ApiError => e
   puts "Exception when calling FlagsApi->get_flag: #{e}"
 end
 ```
@@ -184,26 +184,26 @@ Update a flag with the provided values.
 # load the gem
 require 'a15k_interactions_api'
 # setup authorization
-A15k::Interactions.configure do |config|
+A15kInteractions.configure do |config|
   # Configure API key authorization: api_id
   config.api_key['Authorization'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['Authorization'] = 'Bearer'
 end
 
-api_instance = A15k::Interactions::FlagsApi.new
+api_instance = A15kInteractions::FlagsApi.new
 
 id = "id_example" # String | ID of the flag
 
 opts = { 
-  flag: A15k::Interactions::Flag.new # Flag | The flag data
+  flag: A15kInteractions::Flag.new # Flag | The flag data
 }
 
 begin
   #Update a flag
   result = api_instance.update_flag(id, opts)
   p result
-rescue A15k::Interactions::ApiError => e
+rescue A15kInteractions::ApiError => e
   puts "Exception when calling FlagsApi->update_flag: #{e}"
 end
 ```
