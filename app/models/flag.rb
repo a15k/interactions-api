@@ -33,8 +33,11 @@ class Flag
     Flag.new.from_json(data)
   end
 
-  def update
-    raise "NYI"
+  def update(type: nil, explanation: nil)
+    # Can update only one or neither
+    self.type = type if type.present?
+    self.explanation = explanation if explanation.present?
+    save
   end
 
   def destroy

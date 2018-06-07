@@ -49,6 +49,58 @@ RSpec.describe "Flags", :type => :request, api: :v0 do
     end
   end
 
+  context "#update" do
+    let(:flag) { create_flag }
+
+    it "can update just type" do
+      api_put "flags/#{flag.id}", params: flag_update_json(type: "incorrect")
+
+      expect_valid_bound_response(Api::V0::Bindings::Flag) do |bound_response|
+        expect(bound_response.type).to eq "incorrect"
+        expect(bound_response.explanation).to eq "crazy!"
+      end
+
+      expect(Flag.find(flag.id).type).to eq "incorrect"
+      expect(Flag.find(flag.id).explanation).to eq "crazy!"
+    end
+
+    it "can update just explanation" do
+      api_put "flags/#{flag.id}", params: flag_update_json(explanation: "new thing")
+
+      expect_valid_bound_response(Api::V0::Bindings::Flag) do |bound_response|
+        expect(bound_response.type).to eq "typo"
+        expect(bound_response.explanation).to eq "new thing"
+      end
+
+      expect(Flag.find(flag.id).type).to eq "typo"
+      expect(Flag.find(flag.id).explanation).to eq "new thing"
+    end
+
+    it "can update type and explanation" do
+      api_put "flags/#{flag.id}", params: flag_update_json(type: "incorrect", explanation: "something new")
+
+      expect_valid_bound_response(Api::V0::Bindings::Flag) do |bound_response|
+        expect(bound_response.type).to eq "incorrect"
+        expect(bound_response.explanation).to eq "something new"
+      end
+
+      expect(Flag.find(flag.id).type).to eq "incorrect"
+      expect(Flag.find(flag.id).explanation).to eq "something new"
+    end
+
+    it "can update with no updates" do
+      api_put "flags/#{flag.id}", params: flag_update_json({})
+
+      expect_valid_bound_response(Api::V0::Bindings::Flag) do |bound_response|
+        expect(bound_response.type).to eq "typo"
+        expect(bound_response.explanation).to eq "crazy!"
+      end
+
+      expect(Flag.find(flag.id).type).to eq "typo"
+      expect(Flag.find(flag.id).explanation).to eq "crazy!"
+    end
+  end
+
   context "#destroy" do
     it "can delete a flag" do
       flag = create_flag
@@ -72,6 +124,10 @@ RSpec.describe "Flags", :type => :request, api: :v0 do
     }.merge(overrides)
 
     Api::V0::Bindings::FlagNew.new.build_from_hash(hash).to_body.to_json
+  end
+
+  def flag_update_json(hash)
+    Api::V0::Bindings::FlagUpdate.new.build_from_hash(hash).to_body.to_json
   end
 
   def create_flag

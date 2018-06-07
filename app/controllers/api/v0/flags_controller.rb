@@ -110,7 +110,7 @@ class Api::V0::FlagsController < Api::V0::BaseController
         key :in, :body
         key :description, 'The flag data'
         schema do
-          key :'$ref', :Flag
+          key :'$ref', :FlagUpdate
         end
       end
       response 200 do
@@ -127,13 +127,13 @@ class Api::V0::FlagsController < Api::V0::BaseController
   end
 
   def update
-    binding, error = bind(@flag.to_hash.merge(params[:flag]), Api::V0::Bindings::Flag)
+    binding, error = bind(params[:flag], Api::V0::Bindings::FlagUpdate)
 
     render(json: error, status: error.status_code) and return if error
 
     @flag.update(type: binding.type, explanation: binding.explanation)
 
-    render json: to_json(@flag), status: :success
+    render json: to_json(@flag), status: :ok
   end
 
   swagger_path '/flags/{id}' do

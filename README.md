@@ -20,6 +20,7 @@ will generate the Ruby client for the latest version 0 API.
 1. Redis namespaces (interactions-api-test) and make sure database cleaning is compatible
 2. Rest of Flags controller
 2. Presentations controller
+3. Model validations
 3. Generate JS client lib and test from rspec (?) - can we autogenerate the client in Travis in a separate repo or travis build and test when this baseline changes?
 3. Should we allow API token in lieu of api ID and domain if provided?  If so change authenticate method names?
 3. Ratings controller
