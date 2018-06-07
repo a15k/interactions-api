@@ -33,12 +33,17 @@ class Flag
     Flag.new.from_json(data)
   end
 
-  def update
-    raise "NYI"
+  def update(type: nil, explanation: nil)
+    # Can update only one or neither
+    self.type = type if type.present?
+    self.explanation = explanation if explanation.present?
+    save
   end
 
   def destroy
-    raise "NYI"
+    redis.multi do
+      redis.del(redis_key)
+    end
   end
 
   def attributes
@@ -66,10 +71,14 @@ class Flag
   def save
     # TODO validations?
     redis.multi do
-      redis.set("flags:id:#{id}", to_json)
+      redis.set(redis_key, to_json)
       # TODO also index ID by other fields as needed
     end
     true
+  end
+
+  def redis_key
+    "flags:id:#{id}"
   end
 
 end

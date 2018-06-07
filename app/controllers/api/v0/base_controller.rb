@@ -53,6 +53,10 @@ class Api::V0::BaseController < ApplicationController
     URI.parse(origin).host
   end
 
+  def origin!
+    origin || raise(MissingOrigin)
+  end
+
   def authenticate_admin_api_token
     return head(:unauthorized) if api_token.nil?
     return head(:forbidden) if api_token != Rails.application.secrets.admin_api_token
@@ -64,8 +68,12 @@ class Api::V0::BaseController < ApplicationController
   end
 
   def authenticate_api_id_and_domain
-    return head(:unauthorized) if api_id.nil?
-    return head(:forbidden) if !apps.does_api_id_origin_combo_exist?(api_id, origin)
+    begin
+      return head(:unauthorized) if api_id.nil?
+      return head(:forbidden) if !apps.does_api_id_origin_combo_exist?(api_id, origin!)
+    rescue MissingOrigin => ee
+      return head(:unauthorized)
+    end
   end
 
   def apps

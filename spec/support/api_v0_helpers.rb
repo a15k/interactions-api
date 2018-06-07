@@ -38,18 +38,32 @@ module ApiV0Helpers
     set_authorization_header("ID #{value}")
   end
 
+  def clear_api_token
+    header_hash.delete('Authorization') if header_hash['Authorization'].try(:starts_with?, "Token")
+  end
+
+  def clear_api_id
+    header_hash.delete('Authorization') if header_hash['Authorization'].try(:starts_with?, "ID")
+  end
+
+  def clear_origin
+    set_origin(nil)
+  end
+
   def set_authorization_header(value)
     set_header('Authorization', value)
   end
 
   def set_header(key, value)
-    hash = if controller_spec?
+    header_hash[key] = value
+  end
+
+  def header_hash
+    if controller_spec?
       @request.headers
     elsif request_spec?
       headers
     end
-
-    hash[key] = value
   end
 
   def set_origin(value)

@@ -10,6 +10,8 @@ module Api::V0::SwaggerModels
     key :required, [:id, :content_uid, :user_uid, :type]
   end
 
+  swagger_schema :FlagUpdate
+
   add_properties(:Flag) do
     property :id do
       key :type, :string
@@ -40,6 +42,9 @@ module Api::V0::SwaggerModels
       key :description, "The ID of the user doing the flagging, unique in the " \
                         "scope of the reporting app"
     end
+  end
+
+  add_properties(:FlagNew, :Flag, :FlagUpdate) do
     property :type do
       key :type, :string
       key :description, "The type of flag"

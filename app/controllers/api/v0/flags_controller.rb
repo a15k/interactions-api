@@ -30,8 +30,8 @@ class Api::V0::FlagsController < Api::V0::BaseController
           key :'$ref', :Flag
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorId
+      extend Api::V0::SwaggerResponses::ForbiddenErrorId
       extend Api::V0::SwaggerResponses::ServerError
     end
   end
@@ -76,15 +76,15 @@ class Api::V0::FlagsController < Api::V0::BaseController
           key :'$ref', :Flag
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorId
+      extend Api::V0::SwaggerResponses::ForbiddenErrorId
       extend Api::V0::SwaggerResponses::NotFoundError
       extend Api::V0::SwaggerResponses::ServerError
     end
   end
 
   def show
-    render json: to_json(@flag), status: :created
+    render json: to_json(@flag), status: :ok
   end
 
   swagger_path '/flags' do
@@ -110,7 +110,7 @@ class Api::V0::FlagsController < Api::V0::BaseController
         key :in, :body
         key :description, 'The flag data'
         schema do
-          key :'$ref', :Flag
+          key :'$ref', :FlagUpdate
         end
       end
       response 200 do
@@ -119,21 +119,21 @@ class Api::V0::FlagsController < Api::V0::BaseController
           key :'$ref', :Flag
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorId
+      extend Api::V0::SwaggerResponses::ForbiddenErrorId
       extend Api::V0::SwaggerResponses::NotFoundError
       extend Api::V0::SwaggerResponses::ServerError
     end
   end
 
   def update
-    binding, error = bind(@flag.to_hash.merge(params[:flag]), Api::V0::Bindings::Flag)
+    binding, error = bind(params[:flag], Api::V0::Bindings::FlagUpdate)
 
     render(json: error, status: error.status_code) and return if error
 
     @flag.update(type: binding.type, explanation: binding.explanation)
 
-    render json: to_json(@flag), status: :success
+    render json: to_json(@flag), status: :ok
   end
 
   swagger_path '/flags/{id}' do
@@ -160,8 +160,8 @@ class Api::V0::FlagsController < Api::V0::BaseController
           key :'$ref', :Flag
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorId
+      extend Api::V0::SwaggerResponses::ForbiddenErrorId
       extend Api::V0::SwaggerResponses::NotFoundError
       extend Api::V0::SwaggerResponses::ServerError
     end
@@ -169,7 +169,7 @@ class Api::V0::FlagsController < Api::V0::BaseController
 
   def destroy
     @flag.destroy
-    render json: to_json(@flag), status: :created
+    render json: to_json(@flag), status: :ok
   end
 
   protected

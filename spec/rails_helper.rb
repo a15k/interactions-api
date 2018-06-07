@@ -21,6 +21,7 @@ require 'rspec/rails'
 # require only the support files necessary.
 #
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f unless f.ends_with?("_spec.rb") }
+Dir[Rails.root.join('spec/shared_examples/**/*.rb')].each { |f| require f }
 
 require 'database_cleaner'
 
@@ -69,6 +70,8 @@ RSpec.configure do |config|
 
   config.include ResponseHelpers, type: :request
 end
+
+include SharedExampleHelpers
 
 def accept_header
   version = self.class.metadata[:accept]

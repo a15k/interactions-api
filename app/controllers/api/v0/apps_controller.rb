@@ -30,8 +30,8 @@ class Api::V0::AppsController < Api::V0::BaseController
           key :'$ref', :App
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorToken
+      extend Api::V0::SwaggerResponses::ForbiddenErrorToken
       extend Api::V0::SwaggerResponses::ServerError
     end
   end
@@ -65,8 +65,8 @@ class Api::V0::AppsController < Api::V0::BaseController
           key :'$ref', :App
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorToken
+      extend Api::V0::SwaggerResponses::ForbiddenErrorToken
       extend Api::V0::SwaggerResponses::NotFoundError
       extend Api::V0::SwaggerResponses::ServerError
     end
@@ -104,8 +104,8 @@ class Api::V0::AppsController < Api::V0::BaseController
           end
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorToken
+      extend Api::V0::SwaggerResponses::ForbiddenErrorToken
       extend Api::V0::SwaggerResponses::ServerError
     end
   end
@@ -147,8 +147,8 @@ class Api::V0::AppsController < Api::V0::BaseController
           key :'$ref', :App
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorToken
+      extend Api::V0::SwaggerResponses::ForbiddenErrorToken
       extend Api::V0::SwaggerResponses::NotFoundError
       extend Api::V0::SwaggerResponses::ServerError
     end
@@ -188,8 +188,8 @@ class Api::V0::AppsController < Api::V0::BaseController
           key :'$ref', :App
         end
       end
-      extend Api::V0::SwaggerResponses::AuthenticationError
-      extend Api::V0::SwaggerResponses::ForbiddenError
+      extend Api::V0::SwaggerResponses::AuthenticationErrorToken
+      extend Api::V0::SwaggerResponses::ForbiddenErrorToken
       extend Api::V0::SwaggerResponses::NotFoundError
       extend Api::V0::SwaggerResponses::ServerError
     end

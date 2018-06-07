@@ -2,6 +2,8 @@ require "rails_helper"
 
 RSpec.describe "Apps", :type => :request, api: :v0 do
 
+  include_examples "v0 admin token checks", route_prefix: "apps", actions: [:crud]
+
   context "valid admin token" do
     before { set_admin_api_token }
 
@@ -109,24 +111,6 @@ RSpec.describe "Apps", :type => :request, api: :v0 do
       end
 
     end
-  end
-
-  context "invalid admin token" do
-    before { set_bad_admin_api_token }
-
-    test_request_status(self, :post, "apps", :forbidden)
-    test_request_status(self, :get, "apps/42", :forbidden)
-    test_request_status(self, :get, "apps", :forbidden)
-    test_request_status(self, :put, "apps/42", :forbidden)
-    test_request_status(self, :delete, "apps/42", :forbidden)
-  end
-
-  context "missing admin token" do
-    test_request_status(self, :post, "apps", :unauthorized)
-    test_request_status(self, :get, "apps/42", :unauthorized)
-    test_request_status(self, :get, "apps", :unauthorized)
-    test_request_status(self, :put, "apps/42", :unauthorized)
-    test_request_status(self, :delete, "apps/42", :unauthorized)
   end
 
   def app_update_json(hash)
