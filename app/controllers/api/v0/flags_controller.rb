@@ -49,7 +49,11 @@ class Api::V0::FlagsController < Api::V0::BaseController
                        type: binding.type,
                        explanation: binding.explanation)
 
-    render json: to_json(flag), status: :created
+    if flag.errors.any?
+      render_errors(flag.errors.messages)
+    else
+      render json: to_json(flag), status: :created
+    end
   end
 
   swagger_path '/flags/{id}' do

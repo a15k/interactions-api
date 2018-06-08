@@ -2,15 +2,21 @@ require 'rails_helper'
 
 RSpec.describe Flag do
 
+  let(:app) { App.create }
+
   context "#create" do
     context "app exists" do
-      let(:app) { App.create }
-
       it "can be created" do
         flag = create(app_api_id: app.api_id)
         expect(flag.id).to be_a_kind_of(String)
         retrieved_flag = described_class.find(flag.id)
         expect(retrieved_flag.id).to eq flag.id
+      end
+
+      it "cannot be created with an invalid type" do
+        flag = create(app_api_id: app.api_id, type: "blah")
+        expect(flag.errors).not_to be_empty
+        expect(flag).not_to be_valid
       end
     end
 
@@ -31,6 +37,17 @@ RSpec.describe Flag do
     it "returns nil if flag not in redis" do
       expect(described_class.find("notreal")).to be_nil
     end
+  end
+
+  context "#update" do
+    it "cannot be updated with an invalid type" do
+      flag = create(app_api_id: app.api_id, type: "typo")
+      expect(flag).to be_valid
+      flag.update(type: "blah")
+      expect(flag.errors).not_to be_empty
+      expect(flag).not_to be_valid
+    end
+
   end
 
   def create(app_api_id:,
