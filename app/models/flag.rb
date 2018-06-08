@@ -4,13 +4,27 @@ require 'avro_turf/messaging'
 
 class Flag
   include ActiveModel::Serializers::JSON
+  include ActiveModel::Validations
+
   include RedisConnection
 
   # each CRUD operation updates the current state in Redis but also writes
   # an event to Kafka
 
-  attr_reader :id, :app_id, :source_domain, :content_uid,
-              :variant_id, :user_uid, :type, :explanation, :created_at
+  DATA_FIELDS = [:id, :app_id, :source_domain, :content_uid,
+                 :variant_id, :user_uid, :type, :explanation,
+                 :created_at]
+
+  attr_reader *DATA_FIELDS
+
+  validates :id, presence: true
+  validates :app_id, presence: true
+  validates :source_domain, presence: true
+  validates :content_uid, presence: true
+  validates :user_uid, presence: true
+  validates :type, presence: true,
+                   inclusion: { in: %w(unspecified typo copyright_violation incorrect offensive) }
+  validates :created_at, presence: true
 
   def self.create(app_api_id:, source_domain:, content_uid:,
                   variant_id:, user_uid:, type:, explanation:)
@@ -23,14 +37,13 @@ class Flag
              type: type,
              explanation: explanation,
              created_at: Time.current.utc).tap(&:save)
-    # TODO if create doesn't work the caller won't know
   end
 
   def self.find(id)
     return nil if id.blank?
-    data = redis.get("flags:id:#{id}")
+    data = redis.get(redis_key(id))
     return nil if data.nil?
-    Flag.new.from_json(data)
+    Flag.new(persisted: true).from_json(data)
   end
 
   def update(type: nil, explanation: nil)
@@ -56,28 +69,45 @@ class Flag
     end
   end
 
+  def persisted?
+    self.persisted
+  end
+
   protected
 
-  attr_writer :id, :app_id, :source_domain, :content_uid,
-              :variant_id, :user_uid, :type, :explanation, :created_at
+  attr_writer *DATA_FIELDS
+  attr_accessor :persisted
 
   def initialize(data = {})
     self.attributes = data
   end
 
-  # `save` is protected because we always want to know what kind of
-  # save is happening (create or update) so we can write the appropriate
-  # entry into Kafka
+  # `save` is protected because it will be easier to write create- and update-
+  # specific records to Kafka when callers have to use public create and update
+  # methods.
   def save
-    # TODO validations?
+    return false if invalid?
+
     redis.multi do
       redis.set(redis_key, to_json)
-      # TODO also index ID by other fields as needed
+
+      if !persisted?
+        # TODO also index ID by other fields as needed, only do on first write to redis
+      end
     end
+
     true
   end
 
+  def to_json
+    as_json(only: DATA_FIELDS).to_json
+  end
+
   def redis_key
+    self.class.redis_key(id)
+  end
+
+  def self.redis_key(id)
     "flags:id:#{id}"
   end
 

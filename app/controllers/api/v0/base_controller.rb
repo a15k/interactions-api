@@ -80,4 +80,14 @@ class Api::V0::BaseController < ApplicationController
     CachedApps.instance
   end
 
+  def render_errors(errors)
+    render(
+      json: Api::V0::Bindings::Error.new(
+              status_code: :unprocessable_entity,
+              messages: errors
+            ),
+      status: :unprocessable_entity
+    )
+  end
+
 end

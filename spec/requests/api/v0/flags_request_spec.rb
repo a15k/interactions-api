@@ -99,6 +99,11 @@ RSpec.describe "Flags", :type => :request, api: :v0 do
       expect(Flag.find(flag.id).type).to eq "typo"
       expect(Flag.find(flag.id).explanation).to eq "crazy!"
     end
+
+    it "gets an error for a bad type" do
+      api_put "flags/#{flag.id}", params: {flag: {type: "nope"}}.to_json
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
   end
 
   context "#destroy" do
@@ -123,11 +128,11 @@ RSpec.describe "Flags", :type => :request, api: :v0 do
       explanation: "missing period in sentence 4"
     }.merge(overrides)
 
-    Api::V0::Bindings::FlagNew.new.build_from_hash(hash).to_body.to_json
+    {flag: Api::V0::Bindings::FlagNew.new.build_from_hash(hash).to_body}.to_json
   end
 
   def flag_update_json(hash)
-    Api::V0::Bindings::FlagUpdate.new.build_from_hash(hash).to_body.to_json
+    {flag: Api::V0::Bindings::FlagUpdate.new.build_from_hash(hash).to_body}.to_json
   end
 
   def create_flag
