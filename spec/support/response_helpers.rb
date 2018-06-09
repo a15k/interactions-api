@@ -3,8 +3,8 @@ module ResponseHelpers
     JSON.parse(response.body, symbolize_names: true)
   end
 
-  def expect_valid_bound_response(bindings_class)
-    expect(response).to have_http_status(:ok)
+  def expect_valid_bound_response(bindings_class, status=:ok)
+    expect(response).to have_http_status(status)
 
     bound_response = nil
 
