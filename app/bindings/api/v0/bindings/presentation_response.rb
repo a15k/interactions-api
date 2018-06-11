@@ -14,27 +14,21 @@ require 'date'
 
 module Api::V0::Bindings
 
-  class Error
-    # The HTTP status code
-    attr_accessor :status_code
-
-    # The error messages, if any
-    attr_accessor :messages
+  class PresentationResponse
+    attr_accessor :flags
 
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'status_code' => :'status_code',
-        :'messages' => :'messages'
+        :'flags' => :'flags'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'status_code' => :'Integer',
-        :'messages' => :'Array<String>'
+        :'flags' => :'Array<Flag>'
       }
     end
 
@@ -46,13 +40,9 @@ module Api::V0::Bindings
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'status_code')
-        self.status_code = attributes[:'status_code']
-      end
-
-      if attributes.has_key?(:'messages')
-        if (value = attributes[:'messages']).is_a?(Array)
-          self.messages = value
+      if attributes.has_key?(:'flags')
+        if (value = attributes[:'flags']).is_a?(Array)
+          self.flags = value
         end
       end
 
@@ -76,8 +66,7 @@ module Api::V0::Bindings
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          status_code == o.status_code &&
-          messages == o.messages
+          flags == o.flags
     end
 
     # @see the `==` method
@@ -89,7 +78,7 @@ module Api::V0::Bindings
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [status_code, messages].hash
+      [flags].hash
     end
 
     # Builds the object from hash

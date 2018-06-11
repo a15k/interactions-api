@@ -39,6 +39,19 @@ RSpec.describe Flag do
     end
   end
 
+  context "#find_all" do
+    it "can return multiple" do
+      flag_1 = create(app_api_id: app.api_id)
+      flag_2 = create(app_api_id: app.api_id)
+      expect(described_class.find_all(flag_1.id, flag_2.id).map(&:id)).to eq [flag_1.id, flag_2.id]
+    end
+
+    it "raises an error if can't find all IDs" do
+      flag = create(app_api_id: app.api_id)
+      expect{described_class.find_all(flag.id, "nope")}.to raise_error(NotAllItemsFound, /nope/)
+    end
+  end
+
   context "#update" do
     it "cannot be updated with an invalid type" do
       flag = create(app_api_id: app.api_id, type: "typo")
@@ -47,7 +60,6 @@ RSpec.describe Flag do
       expect(flag.errors).not_to be_empty
       expect(flag).not_to be_valid
     end
-
   end
 
   def create(app_api_id:,

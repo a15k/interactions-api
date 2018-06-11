@@ -46,6 +46,33 @@ class Flag
     Flag.new(persisted: true).from_json(data)
   end
 
+  def self.find_all(*ids)
+    ids = [ids].flatten
+    return [] if ids.empty?
+
+    datas = redis.mget(ids.map{|id| redis_key(id)})
+
+    if datas.compact.length != ids.length
+      missing_ids = datas.map.with_index {|data, ii| data.nil? ? ids[ii] : nil}.compact
+      raise NotAllItemsFound, "Could not find Flags with IDs #{missing_ids}"
+    end
+
+    datas.map{|data| Flag.new(persisted: true).from_json(data)}
+  end
+
+  def self.search(content_uid:, variant_id:, app_id:, user_uid:)
+    ids = redis.smembers(presentation_key(content_uid: content_uid,
+                                          variant_id: variant_id,
+                                          app_id: app_id,
+                                          user_uid: user_uid))
+    begin
+      find_all(ids)
+    rescue NotAllItemsFound => ee
+      raise "Search for #{content_uid}, #{variant_id}, #{app_id}, #{user_uid} " \
+            "yielded IDs not all of which were found: #{ee.message}"
+    end
+  end
+
   def update(type: nil, explanation: nil)
     # Can update only one or neither
     self.type = type if type.present?
@@ -56,6 +83,7 @@ class Flag
   def destroy
     redis.multi do
       redis.del(redis_key)
+      redis.srem(presentation_key, id)
     end
   end
 
@@ -92,7 +120,7 @@ class Flag
       redis.set(redis_key, to_json)
 
       if !persisted?
-        # TODO also index ID by other fields as needed, only do on first write to redis
+        redis.sadd(presentation_key, id)
       end
     end
 
@@ -109,6 +137,17 @@ class Flag
 
   def self.redis_key(id)
     "flags:id:#{id}"
+  end
+
+  def presentation_key
+    self.class.presentation_key(content_uid: content_uid,
+                                variant_id: variant_id,
+                                app_id: app_id,
+                                user_uid: user_uid)
+  end
+
+  def self.presentation_key(content_uid:, variant_id:, app_id:, user_uid:)
+    "flags:c:#{content_uid}:v:#{variant_id}:a:#{app_id}:u:#{user_uid}"
   end
 
 end

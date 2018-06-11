@@ -52,6 +52,7 @@ class Api::V0::AppsController < Api::V0::BaseController
         key :description, 'ID of the app'
         key :required, true
         key :type, :string
+        key :format, 'uuid'
       end
       security do
         key :api_token, []
@@ -132,6 +133,7 @@ class Api::V0::AppsController < Api::V0::BaseController
         key :description, 'ID of the app'
         key :required, true
         key :type, :string
+        key :format, 'uuid'
       end
       parameter do
         key :name, :app
@@ -181,6 +183,7 @@ class Api::V0::AppsController < Api::V0::BaseController
         key :description, 'ID of the app to delete'
         key :required, true
         key :type, :string
+        key :format, 'uuid'
       end
       response 200 do
         key :description, 'Success.  Returns the deleted app.'
