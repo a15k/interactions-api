@@ -15,6 +15,7 @@ module Api::V0::SwaggerModels
   add_properties(:Flag) do
     property :id do
       key :type, :string
+      key :format, 'uuid'
       key :readOnly, true
       key :description, "Internally-set UUID.  Used to retrieve and delete flags, so treat it as somewhat secret."
     end
@@ -23,6 +24,7 @@ module Api::V0::SwaggerModels
   add_properties(:FlagNew, :Flag) do
     property :content_uid do
       key :type, :string
+      key :format, 'uuid'
       key :description, "The a15k ID of the content being flagged."
     end
     property :variant_id do
@@ -97,6 +99,7 @@ module Api::V0::SwaggerModels
     key :required, [:content_uid, :user_uid, :presented_at]
     property :content_uid do
       key :type, :string
+      key :format, 'uuid'
       key :description, "The a15k ID of the content being presented."
     end
     property :variant_id do

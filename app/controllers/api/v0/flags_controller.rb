@@ -73,6 +73,7 @@ class Api::V0::FlagsController < Api::V0::BaseController
         key :description, 'ID of the flag to retrieve'
         key :required, true
         key :type, :string
+        key :format, 'uuid'
       end
       response 200 do
         key :description, 'Success.  Returns the requested flag.'
@@ -108,6 +109,7 @@ class Api::V0::FlagsController < Api::V0::BaseController
         key :description, 'ID of the flag'
         key :required, true
         key :type, :string
+        key :format, 'uuid'
       end
       parameter do
         key :name, :flag
@@ -157,6 +159,7 @@ class Api::V0::FlagsController < Api::V0::BaseController
         key :description, 'ID of the flag to delete'
         key :required, true
         key :type, :string
+        key :format, 'uuid'
       end
       response 200 do
         key :description, 'Success.  Returns the deleted flag.'
