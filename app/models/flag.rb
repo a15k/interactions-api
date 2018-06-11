@@ -52,7 +52,7 @@ class Flag
 
     datas = redis.mget(ids.map{|id| redis_key(id)})
 
-    if datas.length != ids.length
+    if datas.compact.length != ids.length
       missing_ids = datas.map.with_index {|data, ii| data.nil? ? ids[ii] : nil}.compact
       raise NotAllItemsFound, "Could not find Flags with IDs #{missing_ids}"
     end
