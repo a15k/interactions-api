@@ -46,6 +46,15 @@ group :development, :test do
   gem "parallel_tests"
 end
 
+group :test do
+  # Adds support for Capybara system testing and selenium driver
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  # Easy installation and use of chromedriver to run system tests with Chrome
+  gem 'chromedriver-helper'
+  gem 'a15k_interactions_api', path: './clients/0.1.0/ruby'
+end
+
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring

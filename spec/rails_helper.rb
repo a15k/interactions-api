@@ -5,6 +5,8 @@ require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require_relative './support/api_helper'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -55,14 +57,19 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation, only: ["#{redis_namespace}:*"])
   end
 
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
-      example.run
-    end
+  config.before(:each, type: :api) do
+    Capybara.current_driver = :api
+    visit :api # force api to have the server booted and available
+    DatabaseCleaner.strategy = :truncation
   end
 
   config.before(:each) do
+    DatabaseCleaner.start
     CachedApps.instance.mark_stale!
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
   end
 
   config.include ApiV0Helpers, api: :v0
