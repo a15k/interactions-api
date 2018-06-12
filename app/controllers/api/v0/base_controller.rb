@@ -54,8 +54,10 @@ class Api::V0::BaseController < ApplicationController
   end
 
   def current_app
-    return nil unless api_token.present?
-    @current_app ||= apps.find_by_api_token(api_token)
+    return @current_app unless @current_app.nil?
+    @current_app = apps.find_by_api_id(api_id) if api_id.present?
+    @current_app = apps.find_by_api_token(api_token) if api_token.present?
+    @current_app
   end
 
   def origin
@@ -76,8 +78,9 @@ class Api::V0::BaseController < ApplicationController
     return head(:forbidden) if current_app.nil?
   end
 
-  def authenticate_origin
-    return head(:forbidden) unless origin.nil? || current_app.url_is_whitelisted?(origin)
+  def authenticate_api_id_and_domain
+    return head(:unauthorized) if api_id.nil?
+    return head(:forbidden) if origin.present? && (current_app.nil? || !current_app.url_is_whitelisted?(origin))
   end
 
   def apps

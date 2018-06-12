@@ -17,17 +17,6 @@ RSpec.shared_examples "v0 API ID checks" do |route_prefix:, actions:|
     test_request_status(self, :delete, "#{route_prefix}/42", :unauthorized) if destroy?(actions)
   end
 
-  context "missing origin" do
-    before { clear_origin }
-    before { set_api_id(an_app_for_api_id_checks.api_id) }
-
-    test_request_status(self, :post, "#{route_prefix}", :unauthorized) if create?(actions)
-    test_request_status(self, :get, "#{route_prefix}/42", :unauthorized)if show?(actions)
-    test_request_status(self, :get, "#{route_prefix}", :unauthorized) if index?(actions)
-    test_request_status(self, :put, "#{route_prefix}/42", :unauthorized) if update?(actions)
-    test_request_status(self, :delete, "#{route_prefix}/42", :unauthorized) if destroy?(actions)
-  end
-
   context "valid API ID and invalid origin" do
     before { set_api_id(an_app_for_api_id_checks.api_id) }
     before { set_origin("https://notright.io") }
