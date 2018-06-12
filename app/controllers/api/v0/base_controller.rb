@@ -1,6 +1,14 @@
 class Api::V0::BaseController < ApplicationController
 
+  # clear the cache when testing so that it's up-to-date
+  # with models that were just created in specs
+  before_action(:clear_apps_cache!) if Rails.env.test?
+
   protected
+
+  def clear_apps_cache!
+    apps.refresh!
+  end
 
   def bind(data, bindings_class)
     begin
@@ -45,16 +53,17 @@ class Api::V0::BaseController < ApplicationController
     request.headers['Authorization'].try(:match, /ID\s*(\S+)/).try(:[],1)
   end
 
+  def current_app
+    return nil unless api_token.present?
+    @current_app ||= apps.find_by_api_token(api_token)
+  end
+
   def origin
     request.headers['origin']
   end
 
   def origin_host
-    URI.parse(origin).host
-  end
-
-  def origin!
-    origin || raise(MissingOrigin)
+    origin ? URI.parse(origin).host : ''
   end
 
   def authenticate_admin_api_token
@@ -64,16 +73,11 @@ class Api::V0::BaseController < ApplicationController
 
   def authenticate_api_token
     return head(:unauthorized) if api_token.nil?
-    return head(:forbidden) if !apps.does_api_token_exist?(api_token)
+    return head(:forbidden) if current_app.nil?
   end
 
-  def authenticate_api_id_and_domain
-    begin
-      return head(:unauthorized) if api_id.nil?
-      return head(:forbidden) if !apps.does_api_id_origin_combo_exist?(api_id, origin!)
-    rescue MissingOrigin => ee
-      return head(:unauthorized)
-    end
+  def authenticate_origin
+    return head(:forbidden) unless origin.nil? || current_app.url_is_whitelisted?(origin)
   end
 
   def apps

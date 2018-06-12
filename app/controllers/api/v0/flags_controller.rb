@@ -1,7 +1,8 @@
 class Api::V0::FlagsController < Api::V0::BaseController
   include Swagger::Blocks
 
-  before_action :authenticate_api_id_and_domain
+  before_action :authenticate_api_token
+  before_action :authenticate_origin
   before_action :get_flag, only: [:show, :update, :destroy]
 
   swagger_path '/flags' do
@@ -41,7 +42,7 @@ class Api::V0::FlagsController < Api::V0::BaseController
 
     render(json: error, status: error.status_code) and return if error
 
-    flag = Flag.create(app_api_id: api_id,
+    flag = Flag.create(app_api_id: current_app.api_id,
                        source_domain: origin_host,
                        content_uid: binding.content_uid,
                        variant_id: binding.variant_id,
