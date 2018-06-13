@@ -1,15 +1,16 @@
-require_relative '../../rails_helper'
+require 'rails_helper'
 
 
 describe 'Ruby client', type: :api do
 
-  let!(:app) do
-    app = App.create.tap do |app|
-      app.update(name: "whatever", whitelisted_domains: "openstax.org")
-    end
-  end
+  let(:api_id) { "a_valid_api_id" }
+  let(:api_token) { "a_valid_api_token" }
 
   before(:each) {
+    # Always create the app with the same ID and token so that the cached apps in the Capybara
+    # server match up even tho redis is cleared after every example
+    app = App.create(api_id: api_id, api_token: api_token, whitelisted_domains: ["openstax.org"])
+
     A15kInteractions.configure do |c|
       # c.debugging = true
       c.scheme = 'http'
@@ -21,7 +22,6 @@ describe 'Ruby client', type: :api do
   describe 'Interactions' do
     describe 'Apps' do
       let(:api_client) { A15kInteractions::AppsApi.new }
-
     end
 
     describe 'Flagging' do

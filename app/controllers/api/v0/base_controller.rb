@@ -1,14 +1,6 @@
 class Api::V0::BaseController < ApplicationController
 
-  # clear the cache when testing so that it's up-to-date
-  # with models that were just created in specs
-  before_action(:clear_apps_cache!) if Rails.env.test?
-
   protected
-
-  def clear_apps_cache!
-    apps.refresh!
-  end
 
   def bind(data, bindings_class)
     begin
