@@ -19,7 +19,6 @@ class Flag
 
   validates :id, presence: true
   validates :app_id, presence: true
-  validates :source_domain, presence: true
   validates :content_uid, presence: true
   validates :user_uid, presence: true
   validates :type, presence: true,

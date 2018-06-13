@@ -13,14 +13,21 @@ class CachedApps
   end
 
   def does_api_token_exist?(api_token)
-    refresh_if_needed!
-    @apps.by_api_token[api_token].present?
+    find_by_api_token(api_token).present?
+  end
+
+  def does_api_id_exist?(api_id)
+    find_by_api_id(api_id).present?
   end
 
   def does_api_id_origin_combo_exist?(api_id, origin)
-    refresh_if_needed!
-    app = @apps.by_api_id[api_id]
+    app = find_by_api_id(api_id)
     app.present? && app.url_is_whitelisted?(origin)
+  end
+
+  def find_by_api_token(api_token)
+    refresh_if_needed!
+    @apps.by_api_token[api_token]
   end
 
   def find_by_api_id(api_id)

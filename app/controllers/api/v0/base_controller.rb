@@ -50,11 +50,7 @@ class Api::V0::BaseController < ApplicationController
   end
 
   def origin_host
-    URI.parse(origin).host
-  end
-
-  def origin!
-    origin || raise(MissingOrigin)
+    origin ? URI.parse(origin).host : ''
   end
 
   def authenticate_admin_api_token
@@ -63,17 +59,22 @@ class Api::V0::BaseController < ApplicationController
   end
 
   def authenticate_api_token
+    # An extra early check to make sure we never allow API ID to be substituted for API token
+    return head(:unauthorized) if api_id.present?
+
     return head(:unauthorized) if api_token.nil?
     return head(:forbidden) if !apps.does_api_token_exist?(api_token)
   end
 
   def authenticate_api_id_and_domain
-    begin
-      return head(:unauthorized) if api_id.nil?
-      return head(:forbidden) if !apps.does_api_id_origin_combo_exist?(api_id, origin!)
-    rescue MissingOrigin => ee
-      return head(:unauthorized)
+    return head(:unauthorized) if api_id.nil?
+
+    if origin.present?
+      return head(:forbidden) if !apps.does_api_id_origin_combo_exist?(api_id, origin)
+    else
+      return head(:forbidden) if !apps.does_api_id_exist?(api_id)
     end
+
   end
 
   def apps
