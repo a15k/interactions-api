@@ -139,6 +139,14 @@ module ApiV0Helpers
         expect(response).to have_http_status(status)
       end
     end
+
+    def test_crud_request_status(spec, route_prefix, status, actions)
+      test_request_status(spec, :post, "#{route_prefix}", status) if create?(actions)
+      test_request_status(spec, :get, "#{route_prefix}/42", status) if show?(actions)
+      test_request_status(spec, :get, "#{route_prefix}", status) if index?(actions)
+      test_request_status(spec, :put, "#{route_prefix}/42", status) if update?(actions)
+      test_request_status(spec, :delete, "#{route_prefix}/42", status) if destroy?(actions)
+    end
   end
 
 end

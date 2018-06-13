@@ -62,6 +62,24 @@ RSpec.describe Api::V0::BaseController, type: :controller, api: :v0 do
       expect(response).to have_http_status(:forbidden)
     end
 
+    it "gives unauthorized for missing token and good ID" do
+      set_api_id(an_app.api_id)
+      get :test_authenticate_api_token
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it "gives unauthorized for sneaky attempt to set both token and ID" do
+      set_api_token("ID #{an_app.api_id}")
+      get :test_authenticate_api_token
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it "gives unauthorize for sneaky attempt #2 to set both token and ID" do
+      set_authorization_header("Token fake , ID #{an_app.api_id}")
+      get :test_authenticate_api_token
+      expect(response).to have_http_status(:unauthorized)
+    end
+
     it "gives success for good token" do
       set_api_token(an_app.api_token)
       get :test_authenticate_api_token
@@ -111,6 +129,13 @@ RSpec.describe Api::V0::BaseController, type: :controller, api: :v0 do
       # do not set origin
       get :test_authenticate_api_id_and_domain
       expect(response).to have_http_status(:ok)
+    end
+
+    it "gives forbidden for bad id and missing domain" do
+      set_api_id("blah")
+      # do not set origin
+      get :test_authenticate_api_id_and_domain
+      expect(response).to have_http_status(:forbidden)
     end
   end
 
