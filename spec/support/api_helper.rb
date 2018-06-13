@@ -9,7 +9,7 @@ class ApiDriver < Capybara::Driver::Base
   def visit(path); end
 end
 
-Capybara.register_driver :api do |app|
+Capybara.register_driver :api_client do |app|
   ApiDriver.new
 end
 
@@ -27,6 +27,6 @@ module ApiHelpers
 end
 
 RSpec.configure do |config|
-  config.include Capybara::DSL, type: :api
-  config.include ApiHelpers, type: :api
+  config.include Capybara::DSL, type: :api_client
+  config.include ApiHelpers, type: :api_client
 end

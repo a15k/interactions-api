@@ -1,14 +1,6 @@
 class Api::V0::BaseController < ApplicationController
 
-  # clear the cache when testing so that it's up-to-date
-  # with models that were just created in specs
-  before_action(:clear_apps_cache!) if Rails.env.test?
-
   protected
-
-  def clear_apps_cache!
-    apps.refresh!
-  end
 
   def bind(data, bindings_class)
     begin
@@ -53,13 +45,6 @@ class Api::V0::BaseController < ApplicationController
     request.headers['Authorization'].try(:match, /ID\s*(\S+)/).try(:[],1)
   end
 
-  def current_app
-    return @current_app unless @current_app.nil?
-    @current_app = apps.find_by_api_id(api_id) if api_id.present?
-    @current_app = apps.find_by_api_token(api_token) if api_token.present?
-    @current_app
-  end
-
   def origin
     request.headers['origin']
   end
@@ -74,13 +59,22 @@ class Api::V0::BaseController < ApplicationController
   end
 
   def authenticate_api_token
+    # An extra early check to make sure we never allow API ID to be substituted for API token
+    return head(:unauthorized) if api_id.present?
+
     return head(:unauthorized) if api_token.nil?
-    return head(:forbidden) if current_app.nil?
+    return head(:forbidden) if !apps.does_api_token_exist?(api_token)
   end
 
   def authenticate_api_id_and_domain
     return head(:unauthorized) if api_id.nil?
-    return head(:forbidden) if origin.present? && (current_app.nil? || !current_app.url_is_whitelisted?(origin))
+
+    if origin.present?
+      return head(:forbidden) if !apps.does_api_id_origin_combo_exist?(api_id, origin)
+    else
+      return head(:forbidden) if !apps.does_api_id_exist?(api_id)
+    end
+
   end
 
   def apps

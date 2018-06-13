@@ -57,10 +57,9 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation, only: ["#{redis_namespace}:*"])
   end
 
-  config.before(:each, type: :api) do
-    Capybara.current_driver = :api
-    visit :api # force api to have the server booted and available
-    DatabaseCleaner.strategy = :truncation
+  config.before(:each, type: :api_client) do
+    Capybara.current_driver = :api_client
+    visit 'api' # visit some existing route to force the server to be booted and available
   end
 
   config.before(:each) do
