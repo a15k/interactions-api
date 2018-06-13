@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 
-describe 'Ruby client', type: :api do
+describe 'Ruby client', type: :api_client do
 
   let(:api_id) { "a_valid_api_id" }
   let(:api_token) { "a_valid_api_token" }
