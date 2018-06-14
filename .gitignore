@@ -8,6 +8,8 @@
 /.bundle
 .env
 
+clients/**/javascript/node_modules
+
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp/**/*
