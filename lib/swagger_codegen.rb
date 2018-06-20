@@ -33,6 +33,12 @@ module SwaggerCodegen
                     '-o', options[:output_dir],
                     '-c', config_file.path,
                     *options[:cmd_options])
+
+        if options[:post_process]
+          Dir.chdir(options[:output_dir]) do
+            options[:post_process].call(options)
+          end
+        end
       end
     end
 
