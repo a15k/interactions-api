@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'fileutils'
 require_relative '../swagger_codegen'
-
+require_relative '../bundle_js_client'
 
 SwaggerLanguageConfigs = {
 
@@ -28,13 +28,7 @@ SwaggerLanguageConfigs = {
 }
 
 SwaggerPostProcess = {
-  "javascript" => lambda do |options|
-    system("npm install -D rollup") or raise "install rollup failed, is npm avail?"
-    system("$(npm bin)/rollup src/index.js --o dist/bundle.js -f umd --name 'A15kInteractions'") or raise 'failed to run rollup.js to generate bundle')
-    pkg = JSON.parse(File.read('package.json'))
-    pkg['main'] = 'dist/bundle.js'
-    File.write('package.json', JSON.pretty_generate(pkg))
-  end
+  "javascript" => -> (options) { BundleJsClient.bundle(options) }
 }
 
 desc <<-DESC.strip_heredoc
