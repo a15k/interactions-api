@@ -1,7 +1,7 @@
 const [_, __, port, apiKey, flagUUID] = process.argv;
 var done = (function wait () { if (!done) setTimeout(wait, 1000) })();
 
-var A15kInteractions = require('../../../../clients/0.1.0/javascript/dist/bundle.js')
+var A15kInteractions = require('../../../../clients/0.1.0/javascript/src/index.js')
 
 var defaultClient = A15kInteractions.ApiClient.instance;
 
