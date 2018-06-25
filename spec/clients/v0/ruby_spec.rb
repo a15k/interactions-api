@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 describe 'Ruby client', type: :api_client do
 
   let(:api_id) { "a_valid_api_id" }

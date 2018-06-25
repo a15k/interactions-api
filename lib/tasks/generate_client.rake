@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'fileutils'
 require_relative '../swagger_codegen'
-
+require_relative '../bundle_js_client'
 
 SwaggerLanguageConfigs = {
 
@@ -25,6 +25,10 @@ SwaggerLanguageConfigs = {
     }
   end
 
+}
+
+SwaggerPostProcess = {
+  "javascript" => -> (options) { BundleJsClient.bundle(options) }
 }
 
 desc <<-DESC.strip_heredoc
@@ -51,7 +55,8 @@ task :generate_client, [:api_major_version, :language] => :environment do |tt,ar
     {
       cmd_options: %W[-l #{language}],
       output_dir: output_dir,
-      config: config.call(api_exact_version)
+      config: config.call(api_exact_version),
+      post_process: SwaggerPostProcess[language]
     }
   end
 end
