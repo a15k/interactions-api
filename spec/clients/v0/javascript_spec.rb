@@ -2,7 +2,7 @@ require_relative '../../rails_helper'
 require 'open3'
 
 
-describe 'Javascript client', type: :api_client do
+describe 'Javascript client', slow: true, type: :api_client do
   let(:api_id) { "a_valid_api_id" }
   let(:api_token) { "a_valid_api_token" }
 
@@ -10,6 +10,10 @@ describe 'Javascript client', type: :api_client do
     App.create(
       api_id: api_id, api_token: api_token, whitelisted_domains: ["openstax.org"]
     )
+  end
+
+  before(:all) do
+    `cd #{Rails.root.join('clients/0.1.0/javascript')}; npm install`
   end
 
   def exec(script, *args)
