@@ -18,7 +18,11 @@ module.exports = {
     publicPath: '/dist/',
     filename: '[name].js',
     library: 'A15kInteractionsClient',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    globalObject: "typeof self !== 'undefined' ? self : this"
+  },
+  externals: {
+    superagent: 'superagent'
   },
   module: {
     rules: [
