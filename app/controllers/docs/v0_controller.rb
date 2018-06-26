@@ -61,10 +61,13 @@ class Docs::V0Controller < ApplicationController
   SWAGGERED_CLASSES = [
     Api::V0::FlagsController,
     Api::V0::RatingsController,
-    Api::V0::SwaggerModels,
-    Api::V0::SwaggerModels::Rating,
     Api::V0::AppsController,
     Api::V0::PresentationsController,
+    Api::V0::SwaggerModels::App,
+    Api::V0::SwaggerModels::Flag,
+    Api::V0::SwaggerModels::Rating,
+    Api::V0::SwaggerModels::Presentation,
+    Api::V0::SwaggerModels::Error,
     self,
   ].freeze
 
