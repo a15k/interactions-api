@@ -17,18 +17,22 @@ module Api::V0::Bindings
   class PresentationResponse
     attr_accessor :flags
 
+    attr_accessor :ratings
+
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'flags' => :'flags'
+        :'flags' => :'flags',
+        :'ratings' => :'ratings'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'flags' => :'Array<Flag>'
+        :'flags' => :'Array<Flag>',
+        :'ratings' => :'Array<Rating>'
       }
     end
 
@@ -43,6 +47,12 @@ module Api::V0::Bindings
       if attributes.has_key?(:'flags')
         if (value = attributes[:'flags']).is_a?(Array)
           self.flags = value
+        end
+      end
+
+      if attributes.has_key?(:'ratings')
+        if (value = attributes[:'ratings']).is_a?(Array)
+          self.ratings = value
         end
       end
 
@@ -66,7 +76,8 @@ module Api::V0::Bindings
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          flags == o.flags
+          flags == o.flags &&
+          ratings == o.ratings
     end
 
     # @see the `==` method
@@ -78,7 +89,7 @@ module Api::V0::Bindings
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [flags].hash
+      [flags, ratings].hash
     end
 
     # Builds the object from hash

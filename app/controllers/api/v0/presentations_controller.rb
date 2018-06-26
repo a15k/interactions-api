@@ -54,10 +54,15 @@ class Api::V0::PresentationsController < Api::V0::BaseController
                           variant_id: presentation.variant_id,
                           app_id: presentation.app_id,
                           user_uid: presentation.user_uid)
+      ratings = Rating.search(content_uid: presentation.content_uid,
+                              variant_id: presentation.variant_id,
+                              app_id: presentation.app_id,
+                              user_uid: presentation.user_uid)
 
       render status: :created,
              json: Api::V0::Bindings::PresentationResponse.new(
-                     flags: flags
+                     flags: flags,
+                     ratings: ratings
                    ).to_json
     end
   end

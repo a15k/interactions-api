@@ -30,8 +30,18 @@ module Api::V0::SwaggerModels::Presentation
   swagger_schema :PresentationResponse do
     property :flags do
       key :type, :array
+      key :description, "The flags associated with the presented assessment's a15k ID, " \
+                        "the variant ID, the app ID, and the user ID"
       items do
         key :'$ref', :Flag
+      end
+    end
+    property :ratings do
+      key :type, :array
+      key :description, "The ratings associated with the presented assessment's a15k ID, " \
+                        "the variant ID, the app ID, and the user ID"
+      items do
+        key :'$ref', :Rating
       end
     end
   end
