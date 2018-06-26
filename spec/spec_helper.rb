@@ -26,8 +26,10 @@ end
 
 # Start calculating code coverage
 SimpleCov.start('rails') do
-  add_filter %r{^/app/controllers/api/v0/swagger*}
-  add_filter %r{^/app/controllers/api/docs/}
+  add_filter %r{^/app/controllers/api/v0/swagger}
+  add_filter %r{^/app/controllers/docs/}
+
+  add_group "Non-generated", ["app/models", "app/controllers"]
 
   merge_timeout 3600
 end

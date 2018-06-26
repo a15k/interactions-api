@@ -1,0 +1,16 @@
+coverage:
+  status:
+    project: on
+    patch:
+      app:
+        flags: app
+      clients:
+        flags: clients
+flags:
+  app:
+    paths:
+      - app/models
+      - app/controllers
+  clients:
+    paths:
+      - clients
