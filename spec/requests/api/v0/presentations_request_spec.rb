@@ -39,7 +39,7 @@ RSpec.describe "Presentations", :type => :request, api: :v0 do
     let!(:flag_2) { create_flag(app: an_app, content_uid: "a", user_uid: "1") }
     let!(:flag_3) { create_flag(app: an_app, content_uid: "b", user_uid: "1") }
     let!(:flag_4) { create_flag(app: an_app, content_uid: "a", user_uid: "2") }
-    let!(:flag_4) { create_flag(app: another_app, content_uid: "a", user_uid: "1") }
+    let!(:flag_5) { create_flag(app: another_app, content_uid: "a", user_uid: "1") }
 
     it "succeeds and returns related flags" do
       api_post "presentations", params: presentation_json(content_uid: "a", user_uid: "1")
@@ -60,7 +60,7 @@ RSpec.describe "Presentations", :type => :request, api: :v0 do
     let!(:rating_2) { create_rating(app: an_app, content_uid: "a", user_uid: "1") }
     let!(:rating_3) { create_rating(app: an_app, content_uid: "b", user_uid: "1") }
     let!(:rating_4) { create_rating(app: an_app, content_uid: "a", user_uid: "2") }
-    let!(:rating_4) { create_rating(app: another_app, content_uid: "a", user_uid: "1") }
+    let!(:rating_5) { create_rating(app: another_app, content_uid: "a", user_uid: "1") }
 
     it "succeeds and returns related ratings" do
       api_post "presentations", params: presentation_json(content_uid: "a", user_uid: "1")
