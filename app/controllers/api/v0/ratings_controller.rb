@@ -46,6 +46,7 @@ class Api::V0::RatingsController < Api::V0::BaseController
                            content_uid: binding.content_uid,
                            variant_id: binding.variant_id,
                            user_uid: binding.user_uid,
+                           type: binding.type,
                            value: binding.value)
 
     if rating.errors.any?
@@ -141,6 +142,7 @@ class Api::V0::RatingsController < Api::V0::BaseController
       content_uid: rating.content_uid,
       variant_id: rating.variant_id,
       user_uid: rating.user_uid,
+      type: rating.type,
       value: rating.value
     ).to_json
   end
