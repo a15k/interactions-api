@@ -103,7 +103,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **String**| ID of the app to delete | 
+ **id** | [**String**](.md)| ID of the app to delete | 
 
 ### Return type
 
@@ -157,7 +157,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **String**| ID of the app | 
+ **id** | [**String**](.md)| ID of the app | 
 
 ### Return type
 
@@ -269,7 +269,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **String**| ID of the app | 
+ **id** | [**String**](.md)| ID of the app | 
  **app** | [**AppUpdate**](AppUpdate.md)| The app data | [optional] 
 
 ### Return type

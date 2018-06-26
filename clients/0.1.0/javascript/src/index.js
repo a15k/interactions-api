@@ -16,12 +16,12 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'A15kInteractions/App', 'A15kInteractions/AppUpdate', 'A15kInteractions/Error', 'A15kInteractions/Flag', 'A15kInteractions/FlagNew', 'A15kInteractions/FlagUpdate', 'A15kInteractions/Presentation', 'A15kInteractions/PresentationResponse', 'api/AppsApi', 'api/FlagsApi', 'api/PresentationsApi'], factory);
+    define(['ApiClient', 'A15kInteractions/App', 'A15kInteractions/AppUpdate', 'A15kInteractions/Error', 'A15kInteractions/Flag', 'A15kInteractions/FlagNew', 'A15kInteractions/FlagUpdate', 'A15kInteractions/Presentation', 'A15kInteractions/PresentationResponse', 'A15kInteractions/Rating', 'A15kInteractions/RatingNew', 'api/AppsApi', 'api/FlagsApi', 'api/PresentationsApi', 'api/RatingsApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./A15kInteractions/App'), require('./A15kInteractions/AppUpdate'), require('./A15kInteractions/Error'), require('./A15kInteractions/Flag'), require('./A15kInteractions/FlagNew'), require('./A15kInteractions/FlagUpdate'), require('./A15kInteractions/Presentation'), require('./A15kInteractions/PresentationResponse'), require('./api/AppsApi'), require('./api/FlagsApi'), require('./api/PresentationsApi'));
+    module.exports = factory(require('./ApiClient'), require('./A15kInteractions/App'), require('./A15kInteractions/AppUpdate'), require('./A15kInteractions/Error'), require('./A15kInteractions/Flag'), require('./A15kInteractions/FlagNew'), require('./A15kInteractions/FlagUpdate'), require('./A15kInteractions/Presentation'), require('./A15kInteractions/PresentationResponse'), require('./A15kInteractions/Rating'), require('./A15kInteractions/RatingNew'), require('./api/AppsApi'), require('./api/FlagsApi'), require('./api/PresentationsApi'), require('./api/RatingsApi'));
   }
-}(function(ApiClient, App, AppUpdate, Error, Flag, FlagNew, FlagUpdate, Presentation, PresentationResponse, AppsApi, FlagsApi, PresentationsApi) {
+}(function(ApiClient, App, AppUpdate, Error, Flag, FlagNew, FlagUpdate, Presentation, PresentationResponse, Rating, RatingNew, AppsApi, FlagsApi, PresentationsApi, RatingsApi) {
   'use strict';
 
   /**
@@ -102,6 +102,16 @@
      */
     PresentationResponse: PresentationResponse,
     /**
+     * The Rating model constructor.
+     * @property {module:A15kInteractions/Rating}
+     */
+    Rating: Rating,
+    /**
+     * The RatingNew model constructor.
+     * @property {module:A15kInteractions/RatingNew}
+     */
+    RatingNew: RatingNew,
+    /**
      * The AppsApi service constructor.
      * @property {module:api/AppsApi}
      */
@@ -115,7 +125,12 @@
      * The PresentationsApi service constructor.
      * @property {module:api/PresentationsApi}
      */
-    PresentationsApi: PresentationsApi
+    PresentationsApi: PresentationsApi,
+    /**
+     * The RatingsApi service constructor.
+     * @property {module:api/RatingsApi}
+     */
+    RatingsApi: RatingsApi
   };
 
   return exports;

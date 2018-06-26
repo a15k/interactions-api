@@ -101,7 +101,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **String**| ID of the flag to delete | 
+ **id** | [**String**](.md)| ID of the flag to delete | 
 
 ### Return type
 
@@ -155,7 +155,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **String**| ID of the flag to retrieve | 
+ **id** | [**String**](.md)| ID of the flag to retrieve | 
 
 ### Return type
 
@@ -196,7 +196,7 @@ api_instance = A15kInteractions::FlagsApi.new
 id = "id_example" # String | ID of the flag
 
 opts = { 
-  flag: A15kInteractions::Flag.new # Flag | The flag data
+  flag: A15kInteractions::FlagUpdate.new # FlagUpdate | The flag data
 }
 
 begin
@@ -212,8 +212,8 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **String**| ID of the flag | 
- **flag** | [**Flag**](Flag.md)| The flag data | [optional] 
+ **id** | [**String**](.md)| ID of the flag | 
+ **flag** | [**FlagUpdate**](FlagUpdate.md)| The flag data | [optional] 
 
 ### Return type
 

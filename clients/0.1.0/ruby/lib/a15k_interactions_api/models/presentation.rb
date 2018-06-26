@@ -14,27 +14,37 @@ require 'date'
 
 module A15kInteractions
 
-  class AppUpdate
-    # Custom name set by app owner to help them manage apps
-    attr_accessor :name
+  class Presentation
+    # The a15k ID of the content being presented.
+    attr_accessor :content_uid
 
-    # List of domains that should be allowed to make cross-origin AJAX requests
-    attr_accessor :whitelisted_domains
+    # The variant ID, only needed for generative assessments
+    attr_accessor :variant_id
+
+    # The ID of the user being presented with the content, unique in the scope of the reporting app
+    attr_accessor :user_uid
+
+    # The date time when the content was presented to the end user, in ISO 8601 notation (https://tools.ietf.org/html/rfc3339#section-5.6), e.g. 2017-07-21T17:32:28Z
+    attr_accessor :presented_at
 
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'name' => :'name',
-        :'whitelisted_domains' => :'whitelisted_domains'
+        :'content_uid' => :'content_uid',
+        :'variant_id' => :'variant_id',
+        :'user_uid' => :'user_uid',
+        :'presented_at' => :'presented_at'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'name' => :'String',
-        :'whitelisted_domains' => :'Array<String>'
+        :'content_uid' => :'String',
+        :'variant_id' => :'String',
+        :'user_uid' => :'String',
+        :'presented_at' => :'DateTime'
       }
     end
 
@@ -46,14 +56,20 @@ module A15kInteractions
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'name')
-        self.name = attributes[:'name']
+      if attributes.has_key?(:'content_uid')
+        self.content_uid = attributes[:'content_uid']
       end
 
-      if attributes.has_key?(:'whitelisted_domains')
-        if (value = attributes[:'whitelisted_domains']).is_a?(Array)
-          self.whitelisted_domains = value
-        end
+      if attributes.has_key?(:'variant_id')
+        self.variant_id = attributes[:'variant_id']
+      end
+
+      if attributes.has_key?(:'user_uid')
+        self.user_uid = attributes[:'user_uid']
+      end
+
+      if attributes.has_key?(:'presented_at')
+        self.presented_at = attributes[:'presented_at']
       end
 
     end
@@ -62,12 +78,27 @@ module A15kInteractions
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if @content_uid.nil?
+        invalid_properties.push("invalid value for 'content_uid', content_uid cannot be nil.")
+      end
+
+      if @user_uid.nil?
+        invalid_properties.push("invalid value for 'user_uid', user_uid cannot be nil.")
+      end
+
+      if @presented_at.nil?
+        invalid_properties.push("invalid value for 'presented_at', presented_at cannot be nil.")
+      end
+
       return invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return false if @content_uid.nil?
+      return false if @user_uid.nil?
+      return false if @presented_at.nil?
       return true
     end
 
@@ -76,8 +107,10 @@ module A15kInteractions
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          name == o.name &&
-          whitelisted_domains == o.whitelisted_domains
+          content_uid == o.content_uid &&
+          variant_id == o.variant_id &&
+          user_uid == o.user_uid &&
+          presented_at == o.presented_at
     end
 
     # @see the `==` method
@@ -89,7 +122,7 @@ module A15kInteractions
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [name, whitelisted_domains].hash
+      [content_uid, variant_id, user_uid, presented_at].hash
     end
 
     # Builds the object from hash

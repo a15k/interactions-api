@@ -30,7 +30,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new A15kInteractions.PresentationResponse();
+    instance = new A15kInteractions.RatingsApi();
   });
 
   var getProperty = function(object, getter, property) {
@@ -49,25 +49,37 @@
       object[property] = value;
   }
 
-  describe('PresentationResponse', function() {
-    it('should create an instance of PresentationResponse', function() {
-      // uncomment below and update the code to test PresentationResponse
-      //var instane = new A15kInteractions.PresentationResponse();
-      //expect(instance).to.be.a(A15kInteractions.PresentationResponse);
+  describe('RatingsApi', function() {
+    describe('createRating', function() {
+      it('should call createRating successfully', function(done) {
+        //uncomment below and update the code to test createRating
+        //instance.createRating(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
     });
-
-    it('should have the property flags (base name: "flags")', function() {
-      // uncomment below and update the code to test the property flags
-      //var instane = new A15kInteractions.PresentationResponse();
-      //expect(instance).to.be();
+    describe('deleteRating', function() {
+      it('should call deleteRating successfully', function(done) {
+        //uncomment below and update the code to test deleteRating
+        //instance.deleteRating(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
     });
-
-    it('should have the property ratings (base name: "ratings")', function() {
-      // uncomment below and update the code to test the property ratings
-      //var instane = new A15kInteractions.PresentationResponse();
-      //expect(instance).to.be();
+    describe('getRating', function() {
+      it('should call getRating successfully', function(done) {
+        //uncomment below and update the code to test getRating
+        //instance.getRating(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
     });
-
   });
 
 }));
