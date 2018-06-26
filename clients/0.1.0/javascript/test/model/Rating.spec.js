@@ -30,7 +30,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new A15kInteractions.PresentationResponse();
+    instance = new A15kInteractions.Rating();
   });
 
   var getProperty = function(object, getter, property) {
@@ -49,22 +49,46 @@
       object[property] = value;
   }
 
-  describe('PresentationResponse', function() {
-    it('should create an instance of PresentationResponse', function() {
-      // uncomment below and update the code to test PresentationResponse
-      //var instane = new A15kInteractions.PresentationResponse();
-      //expect(instance).to.be.a(A15kInteractions.PresentationResponse);
+  describe('Rating', function() {
+    it('should create an instance of Rating', function() {
+      // uncomment below and update the code to test Rating
+      //var instane = new A15kInteractions.Rating();
+      //expect(instance).to.be.a(A15kInteractions.Rating);
     });
 
-    it('should have the property flags (base name: "flags")', function() {
-      // uncomment below and update the code to test the property flags
-      //var instane = new A15kInteractions.PresentationResponse();
+    it('should have the property id (base name: "id")', function() {
+      // uncomment below and update the code to test the property id
+      //var instane = new A15kInteractions.Rating();
       //expect(instance).to.be();
     });
 
-    it('should have the property ratings (base name: "ratings")', function() {
-      // uncomment below and update the code to test the property ratings
-      //var instane = new A15kInteractions.PresentationResponse();
+    it('should have the property contentUid (base name: "content_uid")', function() {
+      // uncomment below and update the code to test the property contentUid
+      //var instane = new A15kInteractions.Rating();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property variantId (base name: "variant_id")', function() {
+      // uncomment below and update the code to test the property variantId
+      //var instane = new A15kInteractions.Rating();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property userUid (base name: "user_uid")', function() {
+      // uncomment below and update the code to test the property userUid
+      //var instane = new A15kInteractions.Rating();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property type (base name: "type")', function() {
+      // uncomment below and update the code to test the property type
+      //var instane = new A15kInteractions.Rating();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property value (base name: "value")', function() {
+      // uncomment below and update the code to test the property value
+      //var instane = new A15kInteractions.Rating();
       //expect(instance).to.be();
     });
 

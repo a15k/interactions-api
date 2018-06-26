@@ -133,6 +133,9 @@ Class | Method | HTTP request | Description
 *A15kInteractions.FlagsApi* | [**getFlag**](docs/FlagsApi.md#getFlag) | **GET** /flags/{id} | Retrieve a flag
 *A15kInteractions.FlagsApi* | [**updateFlag**](docs/FlagsApi.md#updateFlag) | **PUT** /flags | Update a flag
 *A15kInteractions.PresentationsApi* | [**createPresentation**](docs/PresentationsApi.md#createPresentation) | **POST** /presentations | Indicate that content was presented
+*A15kInteractions.RatingsApi* | [**createRating**](docs/RatingsApi.md#createRating) | **POST** /ratings | Rate some content
+*A15kInteractions.RatingsApi* | [**deleteRating**](docs/RatingsApi.md#deleteRating) | **DELETE** /ratings/{id} | Delete a rating
+*A15kInteractions.RatingsApi* | [**getRating**](docs/RatingsApi.md#getRating) | **GET** /ratings/{id} | Retrieve a rating
 
 
 ## Documentation for Models
@@ -145,6 +148,8 @@ Class | Method | HTTP request | Description
  - [A15kInteractions.FlagUpdate](docs/FlagUpdate.md)
  - [A15kInteractions.Presentation](docs/Presentation.md)
  - [A15kInteractions.PresentationResponse](docs/PresentationResponse.md)
+ - [A15kInteractions.Rating](docs/Rating.md)
+ - [A15kInteractions.RatingNew](docs/RatingNew.md)
 
 
 ## Documentation for Authorization

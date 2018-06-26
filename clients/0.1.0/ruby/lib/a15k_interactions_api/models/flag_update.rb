@@ -14,27 +14,48 @@ require 'date'
 
 module A15kInteractions
 
-  class AppUpdate
-    # Custom name set by app owner to help them manage apps
-    attr_accessor :name
+  class FlagUpdate
+    # The type of flag
+    attr_accessor :type
 
-    # List of domains that should be allowed to make cross-origin AJAX requests
-    attr_accessor :whitelisted_domains
+    # The end-user's explanation of why they added this flag.
+    attr_accessor :explanation
 
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'name' => :'name',
-        :'whitelisted_domains' => :'whitelisted_domains'
+        :'type' => :'type',
+        :'explanation' => :'explanation'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'name' => :'String',
-        :'whitelisted_domains' => :'Array<String>'
+        :'type' => :'String',
+        :'explanation' => :'String'
       }
     end
 
@@ -46,14 +67,12 @@ module A15kInteractions
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'name')
-        self.name = attributes[:'name']
+      if attributes.has_key?(:'type')
+        self.type = attributes[:'type']
       end
 
-      if attributes.has_key?(:'whitelisted_domains')
-        if (value = attributes[:'whitelisted_domains']).is_a?(Array)
-          self.whitelisted_domains = value
-        end
+      if attributes.has_key?(:'explanation')
+        self.explanation = attributes[:'explanation']
       end
 
     end
@@ -68,7 +87,19 @@ module A15kInteractions
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      type_validator = EnumAttributeValidator.new('String', ["unspecified", "typo", "copyright_violation", "incorrect", "offensive"])
+      return false unless type_validator.valid?(@type)
       return true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] type Object to be assigned
+    def type=(type)
+      validator = EnumAttributeValidator.new('String', ["unspecified", "typo", "copyright_violation", "incorrect", "offensive"])
+      unless validator.valid?(type)
+        fail ArgumentError, "invalid value for 'type', must be one of #{validator.allowable_values}."
+      end
+      @type = type
     end
 
     # Checks equality by comparing each attribute.
@@ -76,8 +107,8 @@ module A15kInteractions
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          name == o.name &&
-          whitelisted_domains == o.whitelisted_domains
+          type == o.type &&
+          explanation == o.explanation
     end
 
     # @see the `==` method
@@ -89,7 +120,7 @@ module A15kInteractions
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [name, whitelisted_domains].hash
+      [type, explanation].hash
     end
 
     # Builds the object from hash

@@ -14,27 +14,27 @@ require 'date'
 
 module A15kInteractions
 
-  class AppUpdate
-    # Custom name set by app owner to help them manage apps
-    attr_accessor :name
+  class PresentationResponse
+    # The flags associated with the presented assessment's a15k ID, the variant ID, the app ID, and the user ID
+    attr_accessor :flags
 
-    # List of domains that should be allowed to make cross-origin AJAX requests
-    attr_accessor :whitelisted_domains
+    # The ratings associated with the presented assessment's a15k ID, the variant ID, the app ID, and the user ID
+    attr_accessor :ratings
 
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'name' => :'name',
-        :'whitelisted_domains' => :'whitelisted_domains'
+        :'flags' => :'flags',
+        :'ratings' => :'ratings'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'name' => :'String',
-        :'whitelisted_domains' => :'Array<String>'
+        :'flags' => :'Array<Flag>',
+        :'ratings' => :'Array<Rating>'
       }
     end
 
@@ -46,13 +46,15 @@ module A15kInteractions
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'name')
-        self.name = attributes[:'name']
+      if attributes.has_key?(:'flags')
+        if (value = attributes[:'flags']).is_a?(Array)
+          self.flags = value
+        end
       end
 
-      if attributes.has_key?(:'whitelisted_domains')
-        if (value = attributes[:'whitelisted_domains']).is_a?(Array)
-          self.whitelisted_domains = value
+      if attributes.has_key?(:'ratings')
+        if (value = attributes[:'ratings']).is_a?(Array)
+          self.ratings = value
         end
       end
 
@@ -76,8 +78,8 @@ module A15kInteractions
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          name == o.name &&
-          whitelisted_domains == o.whitelisted_domains
+          flags == o.flags &&
+          ratings == o.ratings
     end
 
     # @see the `==` method
@@ -89,7 +91,7 @@ module A15kInteractions
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [name, whitelisted_domains].hash
+      [flags, ratings].hash
     end
 
     # Builds the object from hash

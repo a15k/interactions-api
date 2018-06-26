@@ -16,18 +16,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'A15kInteractions/Flag'], factory);
+    define(['ApiClient', 'A15kInteractions/Flag', 'A15kInteractions/Rating'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./Flag'));
+    module.exports = factory(require('../ApiClient'), require('./Flag'), require('./Rating'));
   } else {
     // Browser globals (root is window)
     if (!root.A15kInteractions) {
       root.A15kInteractions = {};
     }
-    root.A15kInteractions.PresentationResponse = factory(root.A15kInteractions.ApiClient, root.A15kInteractions.Flag);
+    root.A15kInteractions.PresentationResponse = factory(root.A15kInteractions.ApiClient, root.A15kInteractions.Flag, root.A15kInteractions.Rating);
   }
-}(this, function(ApiClient, Flag) {
+}(this, function(ApiClient, Flag, Rating) {
   'use strict';
 
 
@@ -48,6 +48,7 @@
     var _this = this;
 
 
+
   };
 
   /**
@@ -64,14 +65,23 @@
       if (data.hasOwnProperty('flags')) {
         obj['flags'] = ApiClient.convertToType(data['flags'], [Flag]);
       }
+      if (data.hasOwnProperty('ratings')) {
+        obj['ratings'] = ApiClient.convertToType(data['ratings'], [Rating]);
+      }
     }
     return obj;
   }
 
   /**
+   * The flags associated with the presented assessment's a15k ID, the variant ID, the app ID, and the user ID
    * @member {Array.<module:A15kInteractions/Flag>} flags
    */
   exports.prototype['flags'] = undefined;
+  /**
+   * The ratings associated with the presented assessment's a15k ID, the variant ID, the app ID, and the user ID
+   * @member {Array.<module:A15kInteractions/Rating>} ratings
+   */
+  exports.prototype['ratings'] = undefined;
 
 
 
